@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { productService } from "../services/index";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
@@ -6,50 +7,27 @@ const Productos = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const obtenerProductos = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await productService.getProducts();
+        setProductos(data);
+        
+      } catch (error) {
+        if (error instanceof TypeError) {
+          setError("No se pudo conectar con el servidor. Revisá tu conexión.");
+        } else {
+          setError(error.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     obtenerProductos();
   }, []);
-
-  const obtenerProductos = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      //const response = await productosService.getAllProducts(); 
-      // Descomentar lo de arriba y borrar el fetch de abajo cuando se tenga el servicio de productos
-      const response = await fetch(
-        `http://ecommerce.fedegonzalez.com/products/`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer Grupo6",
-          },
-        },
-      );
-
-      //capturamos porsibles errores de la respuesta del servidor
-      if(!response.ok){
-        if(response.status === 401 || response.status === 403){
-          setError("No tenés permiso para ver los productos.");
-        } else if(response.status === 404){
-          setError("No se encontró el listado de productos.");
-        } else {
-          setError("Ups!! tuvimos un problema. Intenta de nuevo más tarde.");
-        }
-      }
-
-      const data = await response.json();
-      setProductos(data);
-
-    } catch (error) {
-      if (error instanceof TypeError) {
-        setError("No se pudo conectar con el servidor. Revisá tu conexión.");
-      } else {
-        setError(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
