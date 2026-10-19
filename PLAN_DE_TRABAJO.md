@@ -30,10 +30,10 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 
 ### Fase 1 · Migrar a React y traer el catálogo (13 al 16/10)
 
-- [ ] **1.1** Crear el repo, Vite + React, estructura de carpetas del punto 11, `.gitignore` e invitar al equipo — **Barby** · Mié 14/10
+- [X] **1.1** Crear el repo, Vite + React, estructura de carpetas del punto 11, `.gitignore` e invitar al equipo — **Barby** · Mié 14/10
 - [ ] **1.2** Verificar con la cátedra qué endpoints reales existen (productos, categorías, tags), qué métodos admiten y cómo se autentican; servicios `apiClient`, `productService`, `categoryService` y `tagService` con fetch, async/await, try/catch y `response.ok`; normalizar categorías y tags — **David** · Vie 16/10
 - [ ] **1.3** Migrar la maquetación del TP2 a componentes: Navbar, Footer y ProductCard con su CSS — **Rodri** · Jue 15/10
-- [ ] **1.4** Listado básico en `/productos` con estados de carga, error y vacío (une 1.2 y 1.3) — **Barby** · Vie 16/10
+- [Completar 1.3] **1.4** Listado básico en `/productos` con estados de carga, error y vacío (une 1.2 y 1.3) — **Barby** · Vie 16/10
 - [ ] **1.5** Esqueleto del README (npm install / npm run dev) y tabla de pruebas vacía — **Rodri** · Vie 16/10
 
 ### Fase 2 · Navegación, filtros, detalle y home (17 al 21/10)
