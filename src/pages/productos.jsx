@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { productService } from "../services/index";
 import { Link, useSearchParams } from "react-router-dom";
+import { ProductCard } from "../components/ProductCard";
+import { ProductSkeleton } from "../components/ProductSkeleton";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
@@ -21,7 +23,6 @@ const Productos = () => {
           return;
         }
 
-
         const data = await productService.getProducts();
         setProductos(data);
         
@@ -41,29 +42,26 @@ const Productos = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">Todos nuestros productos</h1>
+      <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">
+        Todos nuestros productos
+      </h1>
       
       {loading ? (
-        <div>
-          <p className="text-xl font-bold text-slate-300 mb-2">Cargando productos...</p>
-          <p> Agregar luego el componente para el producto-skeleton</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ProductSkeleton key={index} />
+          ))}
         </div>
-        
       ) : error ? (
-          <p className="text-xl font-bold text-slate-300 mb-2">Error: {error}</p>
+        <p className="text-xl font-bold text-red-500 mb-2">Error: {error}</p>
       ) : productos.length === 0 ? (
-            <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
+        <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* Agregar luego el componente para el producto-card */}
-          {productos.map((p) => (
-            <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
-              <Link to={`/producto/${p.id}`}>
-                <h3>{p.title}</h3>
-                <p>{p.price}</p>
-              </Link>
-              
-            </div>
+          {productos.map((producto) => (
+            <Link key={producto.id} to={`/producto/${producto.id}`} className="no-underline">
+              <ProductCard product={producto} />
+            </Link>
           ))}
         </div>
       )}
