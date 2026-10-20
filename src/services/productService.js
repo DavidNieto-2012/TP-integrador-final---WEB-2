@@ -44,4 +44,14 @@ export const productService = {
       (product) => productService.hasTag(product, 'Promoción') || productService.hasTag(product, 'Promocion')
     );
   },
+
+  async getProductsByCategory(category) {
+    if (!category) return [];
+
+    const allProducts = await productService.getProducts();
+    return allProducts.filter(
+      (p) => String(p.category_id) === String(category)
+    );
+  },
+
 };

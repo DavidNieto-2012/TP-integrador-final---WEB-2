@@ -1,9 +1,9 @@
 import React from "react";
 
-const Ficha = () => {
+const Producto = () => {
   return (
     <h1>Ficha de un producto</h1>
   );
 };
 
-export default Ficha;
+export default Producto;
