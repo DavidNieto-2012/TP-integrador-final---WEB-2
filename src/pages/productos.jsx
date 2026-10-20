@@ -17,21 +17,15 @@ const Productos = () => {
       try {
         setLoading(true);
         setError(null);
+        let data;
         if (categoria) {
-          const data = await productService.getProductsByCategory(categoria);
-          setProductos(data);
-          return;
-        }
-
-        const data = await productService.getProducts();
-        setProductos(data);
-        
-      } catch (error) {
-        if (error instanceof TypeError) {
-          setError("No se pudo conectar con el servidor. Revisá tu conexión.");
+          data = await productService.getProductsByCategory(categoria);
         } else {
-          setError(error.message);
+          data = await productService.getAllProducts();
         }
+        setProductos(data);
+      } catch (err) {
+        setError("Error al cargar los productos.");
       } finally {
         setLoading(false);
       }
@@ -42,29 +36,31 @@ const Productos = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">
-        Todos nuestros productos
-      </h1>
-      
-      {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <ProductSkeleton key={index} />
-          ))}
-        </div>
-      ) : error ? (
-        <p className="text-xl font-bold text-red-500 mb-2">Error: {error}</p>
-      ) : productos.length === 0 ? (
-        <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {productos.map((producto) => (
-            <Link key={producto.id} to={`/producto/${producto.id}`} className="no-underline">
-              <ProductCard product={producto} />
-            </Link>
-          ))}
+      <h1 className="text-3xl font-extrabold text-white mb-6">Catálogo de Productos</h1>
+
+      {error && (
+        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl mb-6">
+          {error}
         </div>
       )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {loading ? (
+          Array.from({ length: 8 }).map((_, index) => (
+            <ProductSkeleton key={index} />
+          ))
+        ) : Array.isArray(productos) && productos.length > 0 ? (
+          productos.map((producto) => (
+            <Link key={producto.id} to={`/producto/${producto.id}`}>
+              <ProductCard product={producto} />
+            </Link>
+          ))
+        ) : (
+          <p className="col-span-full text-center text-slate-400 py-10">
+            No se encontraron productos en esta categoría.
+          </p>
+        )}
+      </div>
     </div>
   );
 };

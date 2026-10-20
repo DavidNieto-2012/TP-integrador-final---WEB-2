@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { productService } from "../services/index";
+import { productService, getImageUrl } from "../services/index";
 
 const Producto = () => {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -45,7 +46,7 @@ const Producto = () => {
   }
 
   const { title, price, image, picture, category, description } = producto;
-  const imgUrl = image || picture;
+  const imgUrl = image || picture || (getImageUrl ? getImageUrl(producto) : null);
   const categoryName = typeof category === "object" ? category?.title || category?.name : category;
 
   return (
