@@ -4,6 +4,7 @@ import Productos from "../pages/productos";
 import Producto from "../pages/Producto";
 import Home from "../pages/Home";
 import Forbidden from "../pages/Forbidden";
+import Login from "../pages/Login";
 
 const Rutas = () => {
   return (
@@ -12,6 +13,7 @@ const Rutas = () => {
       <Route path="/productos" element={<Productos />} />
       <Route path="/productos/:id" element={<Producto />} />
       <Route path="/403" element={<Forbidden />} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
     </Routes>
   );

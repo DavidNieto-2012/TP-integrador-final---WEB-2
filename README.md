@@ -18,3 +18,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Instalar React Router
 npm install react-router-dom
+
+# Usuario de prueba
+**Usuario**	      **Contraseña**
+cliente1	    cliente123
+admin	        admin123
