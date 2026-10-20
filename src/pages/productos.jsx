@@ -58,7 +58,7 @@ const Productos = () => {
           {/* Agregar luego el componente para el producto-card */}
           {productos.map((p) => (
             <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
-              <Link to={`/producto/${p.id}`}>
+              <Link to={`/productos/${p.id}`}>
                 <h3>{p.title}</h3>
                 <p>{p.price}</p>
               </Link>
