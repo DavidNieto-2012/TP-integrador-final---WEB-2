@@ -69,4 +69,6 @@ export const categoryService = {
 
     return Array.from(categoriesMap.values());
   },
+
+
 };
