@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthProvisorio";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   const [form, setForm] = useState({ username: "", password: "" });
   const [errorLogin, setErrorLogin] = useState(null);
   const [enviando, setEnviando] = useState(false);
+  const destino = location.state?.from?.pathname || "/";
 
   {/*funcion para manejar cambios en los campos del formulario*/}
   const handleChange = (e) => {
@@ -39,7 +41,7 @@ const Login = () => {
       }
 
       // Login correcto: ir a la página principal
-      navigate("/");
+      navigate(destino, { replace: true });
     } catch {
       setErrorLogin("Ocurrió un error al iniciar sesión.");
     } finally {
