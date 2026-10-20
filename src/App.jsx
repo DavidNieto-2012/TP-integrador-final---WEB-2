@@ -1,12 +1,17 @@
 import React from "react";
-import Productos from "./pages/productos";
+import Header from "./components/Header";
+import Rutas from "./components/Rutas";
 
 function App() {
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <Productos />
+      <Header />
+      <Rutas />
+    
+
+      <p>footer</p>
+
     </>
   )
 }

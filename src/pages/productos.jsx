@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { productService } from "../services/index";
+import { Link, useSearchParams } from "react-router-dom";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchParams] = useSearchParams();
+
+  const categoria = searchParams.get("categoria");
 
   useEffect(() => {
     const obtenerProductos = async () => {
       try {
         setLoading(true);
         setError(null);
+        if (categoria) {
+          const data = await productService.getProductsByCategory(categoria);
+          setProductos(data);
+          return;
+        }
+
 
         const data = await productService.getProducts();
         setProductos(data);
@@ -27,7 +37,7 @@ const Productos = () => {
     };
 
     obtenerProductos();
-  }, []);
+  }, [categoria]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -48,8 +58,11 @@ const Productos = () => {
           {/* Agregar luego el componente para el producto-card */}
           {productos.map((p) => (
             <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
-              <h3>{p.title}</h3>
-              <p>{p.price}</p>
+              <Link to={`/producto/${p.id}`}>
+                <h3>{p.title}</h3>
+                <p>{p.price}</p>
+              </Link>
+              
             </div>
           ))}
         </div>
