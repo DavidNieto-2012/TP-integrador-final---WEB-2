@@ -15,15 +15,10 @@ export const productService = {
     if (!id) return null;
 
     try {
-      const data = await apiClient(`/products/${id}`);
-      if (data && (data.id || data.title || data.name)) {
-        return data;
-      }
-      const allProducts = await productService.getProducts();
-      return allProducts.find((p) => String(p.id) === String(id)) || null;
-    } catch {
-      const allProducts = await productService.getProducts();
-      return allProducts.find((p) => String(p.id) === String(id)) || null;
+      return await apiClient(`/products/${id}`);
+    } catch (error) {
+      console.error('[productService] Error al obtener producto:', error.message);
+      return null;
     }
   },
 
@@ -33,7 +28,7 @@ export const productService = {
     }
     const target = String(tagName).trim().toLowerCase();
     return product.tags.some((tag) => {
-      const name = typeof tag === 'object' ? tag.title || tag.name : tag;
+      const name = typeof tag === 'object' ? tag.title : tag;
       return String(name).trim().toLowerCase() === target;
     });
   },
