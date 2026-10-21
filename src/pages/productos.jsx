@@ -7,6 +7,7 @@ const Productos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
+  const texto = searchParams.get("q") || "";
 
   const categoria = searchParams.get("categoria");
 
@@ -39,10 +40,19 @@ const Productos = () => {
     obtenerProductos();
   }, [categoria]);
 
+  let productosFiltrados = productos;
+
+if (texto) {
+  productosFiltrados = productosFiltrados.filter((p) =>
+    p.title.toLowerCase().includes(texto.toLowerCase())
+  );
+}
+
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">Todos nuestros productos</h1>
-      
+   
       {loading ? (
         <div>
           <p className="text-xl font-bold text-slate-300 mb-2">Cargando productos...</p>
@@ -51,12 +61,12 @@ const Productos = () => {
         
       ) : error ? (
           <p className="text-xl font-bold text-slate-300 mb-2">Error: {error}</p>
-      ) : productos.length === 0 ? (
+      ) : productosFiltrados.length === 0 ? (
             <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {/* Agregar luego el componente para el producto-card */}
-          {productos.map((p) => (
+          {productosFiltrados.map((p) => (
             <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
               <Link to={`/productos/${p.id}`}>
                 <h3>{p.title}</h3>
