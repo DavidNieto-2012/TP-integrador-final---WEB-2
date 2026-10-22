@@ -46,21 +46,6 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
             {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
           <button onClick={() => navigate("/carrito")}>Carrito</button>
           </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link
-            to="/productos"
-            className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
-          >
-            Catálogo
-          </Link>
-          <Link
-            to="/carrito"
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
-          >
-            Carrito
-          </Link>
           <Link
             to="/login"
             className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
@@ -71,41 +56,43 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
 
       <nav
         aria-label="Categorías"
-        className="flex justify-start gap-4 overflow-x-auto border-t border-slate-100 bg-slate-50 px-4 py-2 text-xs font-medium text-slate-600 sm:gap-6 sm:text-sm md:justify-center"
+        className="w-full border-t border-slate-100 bg-slate-50 px-4 py-2"
       >
-        <Link to="/" className="whitespace-nowrap hover:text-indigo-600">
-          Inicio
-        </Link>
-        <Link
-          to="/productos?categoria=325"
-          className="whitespace-nowrap hover:text-indigo-600"
-        >
-          Verduras
-        </Link>
-        <Link
-          to="/productos?categoria=326"
-          className="whitespace-nowrap hover:text-indigo-600"
-        >
-          Carnes
-        </Link>
-        <Link
-          to="/productos?categoria=327"
-          className="whitespace-nowrap hover:text-indigo-600"
-        >
-          Higiene
-        </Link>
-        <Link
-          to="/productos?categoria=328"
-          className="whitespace-nowrap hover:text-indigo-600"
-        >
-          Limpieza
-        </Link>
-        <Link
-          to="/productos"
-          className="whitespace-nowrap text-slate-400 hover:text-indigo-600"
-        >
-          Ver todos →
-        </Link>
+        <div className="mx-auto flex w-fit flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-600 sm:text-sm">
+          <Link to="/" className="whitespace-nowrap hover:text-indigo-600">
+            Inicio
+          </Link>
+          <Link
+            to="/productos?categoria=325"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Verduras
+          </Link>
+          <Link
+            to="/productos?categoria=326"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Carnes
+          </Link>
+          <Link
+            to="/productos?categoria=327"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Higiene
+          </Link>
+          <Link
+            to="/productos?categoria=328"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Limpieza
+          </Link>
+          <Link
+            to="/productos"
+            className="whitespace-nowrap text-slate-400 hover:text-indigo-600"
+          >
+            Ver todos →
+          </Link>
+        </div>
       </nav>
     </header>
   );
