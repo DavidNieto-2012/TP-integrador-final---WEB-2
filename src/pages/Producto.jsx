@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { productService, getImageUrl } from "../services/index";
+import { Link, useParams } from "react-router-dom";
+import { getImageUrl, productService } from "../services/index";
 
 const Producto = () => {
   const { id } = useParams();
-  const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
@@ -14,84 +14,154 @@ const Producto = () => {
       try {
         setLoading(true);
         setError(null);
+        setProducto(null);
+        setCantidad(1);
+
         const data = await productService.getProductById(id);
         setProducto(data);
-      } catch (err) {
-        setError("No se pudo cargar la información del producto.");
+      } catch (error) {
+        if (error instanceof TypeError) {
+          setError("No se pudo conectar con el servidor. Revisá tu conexión.");
+        } else {
+          setError(error.message || "No se pudo cargar el producto.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) obtenerProducto();
+    obtenerProducto();
   }, [id]);
+
+  const cambiarCantidad = (incremento) => {
+    setCantidad((actual) => Math.max(1, actual + incremento));
+  };
+
+  const nombre = producto?.title;
+  const categoria = producto?.category?.title || "Sin Categoría";
+  const descripcion = producto?.description || "Sin descripción disponible para este producto.";
+  const precio = Number(producto?.price ?? 0);
+  const primeraImagen = producto?.pictures?.[0];
+  const imagen = primeraImagen ? getImageUrl(primeraImagen) : 'https://placehold.co/400x400?text=Sin+Imagen';
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-12 text-center text-slate-300 font-bold">
-        Cargando detalle del producto...
+      <div className="max-w-5xl mx-auto p-4 md:p-8">
+        <p className="text-xl font-bold text-slate-300">Cargando producto...</p>
       </div>
     );
   }
 
   if (error || !producto) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <p className="text-red-500 font-bold mb-4">{error || "Producto no encontrado."}</p>
-        <Link to="/productos" className="text-emerald-500 underline">
+      <div className="max-w-5xl mx-auto p-4 md:p-8">
+        <p className="text-xl font-bold text-slate-300 mb-6">
+          {error || "No se encontró el producto solicitado."}
+        </p>
+        <Link
+          to="/productos"
+          className="text-indigo-400 hover:text-indigo-300 font-medium"
+        >
           Volver al catálogo
         </Link>
       </div>
     );
   }
 
-  const { title, price, image, picture, category, description } = producto;
-  const imgUrl = image || picture || (getImageUrl ? getImageUrl(producto) : null);
-  const categoryName = typeof category === "object" ? category?.title || category?.name : category;
-
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
-      <Link to="/productos" className="inline-block mb-6 text-sm text-slate-400 hover:text-white transition">
-        ← Volver al catálogo
+    <div className="max-w-5xl mx-auto p-4 md:p-8">
+      <Link to="/productos" className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors gap-2 text-sm font-medium" >
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Volver al catálogo
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800/60 p-6 md:p-8 rounded-3xl border border-slate-700/50 shadow-2xl">
-        <div className="w-full h-80 bg-slate-700 rounded-2xl overflow-hidden flex items-center justify-center">
-          {imgUrl ? (
-            <img 
-              src={imgUrl} 
-              alt={title || "Producto"} 
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://via.placeholder.com/600x400?text=Sin+Imagen";
-              }} 
-            />
-          ) : (
-            <span className="text-slate-400 font-medium">Sin imagen disponible</span>
-          )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800/40 border border-slate-700/50 p-6 md:p-8 rounded-3xl shadow-2xl backdrop-blur-sm">
+        <div className="flex items-center justify-center bg-slate-900/60 rounded-2xl p-6 border border-slate-700/40 aspect-square">
+          <img
+            src={imagen}
+            alt={nombre}
+            className="max-h-80 w-full object-contain hover:scale-105 transition-transform duration-300"
+          />
         </div>
 
         <div className="flex flex-col justify-between">
           <div>
-            {categoryName && (
-              <span className="inline-block text-xs uppercase tracking-wider font-semibold text-emerald-400 mb-2">
-                {categoryName}
-              </span>
-            )}
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-4">
-              {title || "Producto sin nombre"}
+            <span className="inline-block text-xs uppercase font-bold text-indigo-400 tracking-wider bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20 mb-3">
+              {categoria}
+            </span>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-snug mb-4">
+              {nombre}
             </h1>
-            <p className="text-slate-300 text-sm leading-relaxed mb-6">
-              {description || "Sin descripción disponible para este producto."}
+            <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+              {descripcion}
             </p>
           </div>
 
-          <div>
-            <p className="text-3xl font-black text-emerald-400 mb-6">${price}</p>
-            <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
-              Agregar al carrito
-            </button>
+          <div className="pt-6 border-t border-slate-700/50">
+            <div className="text-3xl md:text-4xl font-black text-white mb-6">
+              $
+              {precio.toLocaleString("es-AR", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+              <div className="flex items-center justify-between bg-slate-900/80 rounded-xl border border-slate-700/60 p-1">
+                <button
+                  type="button"
+                  aria-label="Disminuir cantidad"
+                  onClick={() => cambiarCantidad(-1)}
+                  className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg font-bold text-lg transition-colors cursor-pointer"
+                >
+                  −
+                </button>
+                <span className="px-4 font-semibold text-white select-none">
+                  {cantidad}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Aumentar cantidad"
+                  onClick={() => cambiarCantidad(1)}
+                  className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg font-bold text-lg transition-colors cursor-pointer"
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                  />
+                </svg>
+                Agregar al carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
