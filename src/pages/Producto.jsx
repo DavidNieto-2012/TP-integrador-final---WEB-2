@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getImageUrl, productService } from "../services/index";
+import ProductSkeleton from "../components/ProductSkeleton";
 
 const Producto = () => {
   const { id } = useParams();
@@ -47,7 +48,8 @@ const Producto = () => {
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto p-4 md:p-8">
-        <p className="text-xl font-bold text-slate-300">Cargando producto...</p>
+        <p className="text-xl font-bold text-slate-300 mb-2">Cargando producto...</p>
+        <ProductSkeleton />
       </div>
     );
   }
