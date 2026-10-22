@@ -41,7 +41,7 @@ export const productService = {
   },
 
 
-  //ya no se llama ver si borrarla o no
+  //ya no se llama ahore lo hace  productos.jsx filtra en memorio ver si borrarla o no
   async getProductsByCategory(category) {
     if (!category) return [];
 
