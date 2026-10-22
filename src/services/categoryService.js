@@ -33,7 +33,7 @@ export const categoryService = {
         }
 
         if (typeof cat === 'object') {
-          const name = (cat.name || cat.title || cat.nombre || `Categoría ${index + 1}`).trim();
+          const name = (cat.title || `Categoría ${index + 1}`).trim();
           const id = String(cat.id ?? cat.slug ?? name.toLowerCase().replace(/\s+/g, '-'));
           return { id, name };
         }
@@ -49,7 +49,7 @@ export const categoryService = {
     const categoriesMap = new Map();
 
     products.forEach((product) => {
-      const rawCat = product.category || product.categoria;
+      const rawCat = product.category;
       if (!rawCat) return;
 
       if (typeof rawCat === 'string') {
@@ -59,7 +59,7 @@ export const categoryService = {
           categoriesMap.set(id, { id, name: cleanName });
         }
       } else if (typeof rawCat === 'object') {
-        const name = (rawCat.name || rawCat.title || rawCat.nombre || '').trim();
+        const name = (rawCat.title || '').trim();
         const id = String(rawCat.id ?? name.toLowerCase().replace(/\s+/g, '-'));
         if (name && !categoriesMap.has(id)) {
           categoriesMap.set(id, { id, name });
@@ -69,6 +69,5 @@ export const categoryService = {
 
     return Array.from(categoriesMap.values());
   },
-
 
 };
