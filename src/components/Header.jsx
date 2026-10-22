@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const [busqueda, setBusqueda] = useState("");
+const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recargue toda la pag.
+  
+  navigate(`/productos?q=${encodeURIComponent(busqueda)}`); //encodeURIComponent sirve para convertir los caracteres raros en válidos para una URL.
+}
   return (
     <header className="bg-white">
       {/* Navbar */}
@@ -14,13 +24,28 @@ const Header = () => {
           </span>
         </Link>
 
-        <div className="hidden max-w-md flex-1 md:block">
-          <input
-            type="search"
-            aria-label="Buscar productos"
-            placeholder="Buscar"
-            className="w-full rounded-full border border-slate-200 bg-slate-100 py-2 pl-4 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:bg-white focus:outline-none"
-          />
+          {/* Buscador */}
+          <div className="flex-1 max-w-md hidden md:block">
+            <form onSubmit={buscar} className="relative">
+              <input 
+                type="text" 
+                placeholder="Buscar" 
+                value= {busqueda}
+                onChange={(e)=>setBusqueda(e.target.value)}
+                className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white text-slate-700"
+              />
+              
+            </form>
+          </div>
+
+          {/* Acciones derecha */}
+          <div className="flex items-center gap-3">
+            <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
+              Catálogo
+            </Link>
+            {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
+          <button onClick={() => navigate("/carrito")}>Carrito</button>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
