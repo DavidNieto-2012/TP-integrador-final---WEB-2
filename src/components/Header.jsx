@@ -68,7 +68,6 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
             Ingresar
           </Link>
         </div>
-      </div>
 
       <nav
         aria-label="Categorías"
