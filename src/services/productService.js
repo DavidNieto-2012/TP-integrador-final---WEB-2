@@ -40,6 +40,8 @@ export const productService = {
     );
   },
 
+
+  //ya no se llama ver si borrarla o no
   async getProductsByCategory(category) {
     if (!category) return [];
 

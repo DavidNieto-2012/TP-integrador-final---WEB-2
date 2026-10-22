@@ -1,29 +1,24 @@
 import { useEffect, useState } from "react";
-import { productService } from "../services/index";
+import { productService, categoryService } from "../services/index";
 import { Link, useSearchParams } from "react-router-dom";
+
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categorias, setCategorias] = useState([]);//esta es para que aparezcan las categorias en un select 
   const [searchParams, setSearchParams] = useSearchParams();
   const texto = searchParams.get("q") || "";
   const orden = searchParams.get("orden") || "";
-
-
-
-  const categoria = searchParams.get("categoria");
+  const categoria = searchParams.get("categoria"); // esta
 
   useEffect(() => {
     const obtenerProductos = async () => {
       try {
         setLoading(true);
         setError(null);
-        if (categoria) {
-          const data = await productService.getProductsByCategory(categoria);
-          setProductos(data);
-          return;
-        }
+        
 
 
         const data = await productService.getProducts();
@@ -41,10 +36,19 @@ const Productos = () => {
     };
 
     obtenerProductos();
-  }, [categoria]);
+  }, []);
 
-  let productosFiltrados = productos;
+  useEffect(() => {
+    categoryService.getCategories().then(setCategorias);
+  }, []);
 
+ 
+   let productosFiltrados = productos;
+  if (categoria) {                                   
+    productosFiltrados = productosFiltrados.filter(
+      (p) => String(p.category_id) === categoria
+    );
+  }
   if (texto) {
     productosFiltrados = productosFiltrados.filter((p) =>
       p.title.toLowerCase().includes(texto.toLowerCase())
@@ -62,9 +66,12 @@ const Productos = () => {
 
 
 
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">Todos nuestros productos</h1>
+      
+   
       <select
         value={orden}
         onChange={(e) => {
@@ -78,6 +85,23 @@ const Productos = () => {
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>
       </select>
+
+      <select
+        value={categoria || ""} //
+        onChange={(e) => {
+          const nuevos = new URLSearchParams(searchParams);
+          if (e.target.value) nuevos.set("categoria", e.target.value);
+          else nuevos.delete("categoria");
+          setSearchParams(nuevos);
+        }}
+      >
+        <option value="">Todas las categorías</option>
+        {categorias.map((c) => (
+          <option key={c.id} value={c.id}>{c.name}</option> //el value es el id de la categoria asi se filtra por categoria
+        ))}
+      </select>
+      
+
 
       {loading ? (
         <div>
