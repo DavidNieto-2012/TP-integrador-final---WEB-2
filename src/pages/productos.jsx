@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import { productService } from "../services/index";
 import { Link, useSearchParams } from "react-router-dom";
+import { productService, categoryService, tagService } from "../services/index";
+
+
+import ProductCard from "../components/ProductCard";
+import ProductSkeleton from "../components/ProductSkeleton";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categorias, setCategorias] = useState([]);//esta es para que aparezcan las categorias en un select 
   const [searchParams, setSearchParams] = useSearchParams();
   const texto = searchParams.get("q") || "";
   const orden = searchParams.get("orden") || "";
-
-
-
-  const categoria = searchParams.get("categoria");
+  const [tags, setTags] = useState([])
+  const categoria = searchParams.get("categoria"); // esta
+  const tag = searchParams.get("tag");
 
   useEffect(() => {
     const obtenerProductos = async () => {
       try {
         setLoading(true);
         setError(null);
-        if (categoria) {
-          const data = await productService.getProductsByCategory(categoria);
-          setProductos(data);
-          return;
-        }
+
 
 
         const data = await productService.getProducts();
@@ -41,9 +41,25 @@ const Productos = () => {
     };
 
     obtenerProductos();
-  }, [categoria]);
+  }, []);
+
+  useEffect(() => {
+    categoryService.getCategories().then(setCategorias);
+    tagService.getTags().then(setTags);
+  }, []);
+
 
   let productosFiltrados = productos;
+  if (categoria) {
+    productosFiltrados = productosFiltrados.filter(
+      (p) => String(p.category_id) === categoria
+    );
+  }
+  if (tag) {
+    productosFiltrados = productosFiltrados.filter((p) =>
+      productService.hasTag(p, tag)
+    );
+  }
 
   if (texto) {
     productosFiltrados = productosFiltrados.filter((p) =>
@@ -62,27 +78,67 @@ const Productos = () => {
 
 
 
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">Todos nuestros productos</h1>
-      <select
-        value={orden}
-        onChange={(e) => {
-          const nuevos = new URLSearchParams(searchParams);
-          if (e.target.value) nuevos.set("orden", e.target.value);
-          else nuevos.delete("orden");
-          setSearchParams(nuevos);
-        }}>
 
-        <option value="">Ordenar por precio</option>
-        <option value="asc">Ascendente</option>
-        <option value="desc">Descendente</option>
-      </select>
+      {/*Filtros*/}
+      {/*Filtros*/}
+      <div className="flex flex-wrap justify-center gap-4 mb-6">
+
+
+        <select
+          value={orden}
+          onChange={(e) => {
+            const nuevos = new URLSearchParams(searchParams);
+            if (e.target.value) nuevos.set("orden", e.target.value);
+            else nuevos.delete("orden");
+            setSearchParams(nuevos);
+          }}>
+
+          <option value="">Ordenar por precio</option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+
+        <select
+          value={categoria || ""} //
+          onChange={(e) => {
+            const nuevos = new URLSearchParams(searchParams);
+            if (e.target.value) nuevos.set("categoria", e.target.value);
+            else nuevos.delete("categoria");
+            setSearchParams(nuevos);
+          }}
+        >
+          <option value="">Todas las categorías</option>
+          {categorias.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option> //el value es el id de la categoria asi se filtra por categoria
+          ))}
+        </select>
+        <select
+          value={tag || ""}
+          onChange={(e) => {
+            const nuevos = new URLSearchParams(searchParams);
+            if (e.target.value) nuevos.set("tag", e.target.value);
+            else nuevos.delete("tag");
+            setSearchParams(nuevos);
+          }}
+        >
+          <option value="">Todos los tags</option>
+          {tags.map((t) => (
+            <option key={t.id} value={t.title}>{t.title}</option>
+          ))}
+        </select>
+      </div>
+
+
+
 
       {loading ? (
         <div>
           <p className="text-xl font-bold text-slate-300 mb-2">Cargando productos...</p>
-          <p> Agregar luego el componente para el producto-skeleton</p>
+          <ProductSkeleton />
         </div>
 
       ) : error ? (
@@ -91,12 +147,10 @@ const Productos = () => {
         <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* Agregar luego el componente para el producto-card */}
           {productosFiltrados.map((p) => (
             <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
               <Link to={`/productos/${p.id}`}>
-                <h3>{p.title}</h3>
-                <p>{p.price}</p>
+                <ProductCard product={p} />
               </Link>
 
             </div>

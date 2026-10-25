@@ -1,4 +1,4 @@
-export const ProductCard = ({ product }) => {
+const ProductCard = ({ product }) => {
   const { title, price, image, picture, category } = product || {};
 
   // Evaluamos la URL de la imagen recibida
@@ -48,3 +48,4 @@ export const ProductCard = ({ product }) => {
     </div>
   );
 };
+export default ProductCard;
