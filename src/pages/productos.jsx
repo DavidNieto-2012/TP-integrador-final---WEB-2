@@ -84,7 +84,7 @@ const Productos = () => {
       <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-left">Todos nuestros productos</h1>
 
       {/*Filtros*/}
-      {/*Filtros*/}
+
       <div className="flex flex-wrap justify-center gap-4 mb-6">
 
 
@@ -148,12 +148,10 @@ const Productos = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {productosFiltrados.map((p) => (
-            <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
-              <Link to={`/productos/${p.id}`}>
-                <ProductCard product={p} />
-              </Link>
 
-            </div>
+            <Link to={`/productos/${p.id}`}>
+              <ProductCard product={p} />
+            </Link>
           ))}
         </div>
       )}
