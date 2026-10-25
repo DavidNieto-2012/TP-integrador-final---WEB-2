@@ -12,16 +12,17 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
   navigate(`/productos?q=${encodeURIComponent(busqueda)}`); //encodeURIComponent sirve para convertir los caracteres raros en válidos para una URL.
 }
   return (
-    <header className="bg-white/100">
-        {/* Navbar */}
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          {/* Logo Neutro */}
-          <Link to="/" className="flex items-center gap-2 text-decoration-none">
-            <span className="bg-indigo-600 text-white font-black text-2xl tracking-tighter px-2.5 py-0.5 rounded-lg shadow-sm">
-              SUPER
-            </span>
-            <span className="font-bold text-slate-800 tracking-wide text-lg hidden sm:inline">MERCADO</span>
-          </Link>
+    <header className="bg-white">
+      {/* Navbar */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="rounded-lg bg-indigo-600 px-2.5 py-0.5 text-2xl font-black tracking-tighter text-white shadow-sm">
+            SUPER
+          </span>
+          <span className="hidden text-lg font-bold tracking-wide text-slate-800 sm:inline">
+            MERCADO
+          </span>
+        </Link>
 
           {/* Buscador */}
           <div className="flex-1 max-w-md hidden md:block">
@@ -45,20 +46,55 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
             {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
           <button onClick={() => navigate("/carrito")}>Carrito</button>
           </div>
+          <Link
+            to="/login"
+            className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
+          >
+            Ingresar
+          </Link>
         </div>
 
-        {/* Categorías */}
-        <nav className="bg-slate-50 border-t border-slate-100 px-4 py-2 overflow-x-auto text-xs sm:text-sm font-medium text-slate-600 flex gap-4 sm:gap-6 justify-start md:justify-center">
-          <Link to="/" className="hover:text-indigo-600 whitespace-nowrap">Inicio</Link>
-          <Link to="/productos?categoria=325" className="hover:text-indigo-600 whitespace-nowrap">Verduras</Link>
-          <Link to="/productos?categoria=326" className="hover:text-indigo-600 whitespace-nowrap">Carnes</Link>
-          <Link to="/productos?categoria=327" className="hover:text-indigo-600 whitespace-nowrap">Higiene</Link>
-          <Link to="/productos?categoria=328" className="hover:text-indigo-600 whitespace-nowrap">Limpieza</Link>
-          <Link to="/productos" className="hover:text-indigo-600 text-slate-400 whitespace-nowrap">Ver todos →</Link>
-        </nav>
-      </header>
-    
-      
+      <nav
+        aria-label="Categorías"
+        className="w-full border-t border-slate-100 bg-slate-50 px-4 py-2"
+      >
+        <div className="mx-auto flex w-fit flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-600 sm:text-sm">
+          <Link to="/" className="whitespace-nowrap hover:text-indigo-600">
+            Inicio
+          </Link>
+          <Link
+            to="/productos?categoria=325"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Verduras
+          </Link>
+          <Link
+            to="/productos?categoria=326"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Carnes
+          </Link>
+          <Link
+            to="/productos?categoria=327"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Higiene
+          </Link>
+          <Link
+            to="/productos?categoria=328"
+            className="whitespace-nowrap hover:text-indigo-600"
+          >
+            Limpieza
+          </Link>
+          <Link
+            to="/productos"
+            className="whitespace-nowrap text-slate-400 hover:text-indigo-600"
+          >
+            Ver todos →
+          </Link>
+        </div>
+      </nav>
+    </header>
   );
 };
 

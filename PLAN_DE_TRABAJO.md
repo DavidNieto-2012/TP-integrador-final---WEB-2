@@ -47,7 +47,7 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 ### Fase 3 · Login, roles y rutas protegidas (22 y 23/10)
 
 - [ ] **3.1** `AuthContext`: sesión simulada, cuentas demo (cliente y administrador) y sesión guardada en localStorage — **Rodri** · Jue 22/10
-- [ ] **3.2** Pantalla `/login` con formulario validado y redirección a la página que se quería visitar; `ProtectedRoute` y `AdminRoute` — **Barby** · Vie 23/10
+- [x] **3.2** Pantalla `/login` con formulario validado y redirección a la página que se quería visitar; `ProtectedRoute` y `AdminRoute` — **Barby** · Vie 23/10
 - [ ] **3.3** Navbar y botones según el rol, y validación de rol en la capa de servicio antes de crear, editar o borrar — **David** · Vie 23/10
 
 ### Fase 4 · Carrito y compra simulada (24 al 26/10)

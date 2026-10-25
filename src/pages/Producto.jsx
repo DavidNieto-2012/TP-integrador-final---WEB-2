@@ -56,23 +56,26 @@ const Producto = () => {
 
   if (error || !producto) {
     return (
-      <div className="max-w-5xl mx-auto p-4 md:p-8">
-        <p className="text-xl font-bold text-slate-300 mb-6">
+      <main className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
+        <p className="mb-6 text-xl font-bold text-slate-800">
           {error || "No se encontró el producto solicitado."}
         </p>
         <Link
           to="/productos"
-          className="text-indigo-400 hover:text-indigo-300 font-medium"
+          className="font-semibold text-indigo-600 hover:text-indigo-500"
         >
           Volver al catálogo
         </Link>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8">
-      <Link to="/productos" className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors gap-2 text-sm font-medium" >
+    <main className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8 md:py-12">
+      <Link
+        to="/productos"
+        className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition-colors hover:text-indigo-600"
+      >
         <svg
           className="w-4 h-4"
           fill="none"
@@ -90,54 +93,54 @@ const Producto = () => {
         Volver al catálogo
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800/40 border border-slate-700/50 p-6 md:p-8 rounded-3xl shadow-2xl backdrop-blur-sm">
-        <div className="flex items-center justify-center bg-slate-900/60 rounded-2xl p-6 border border-slate-700/40 aspect-square">
+      <section className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
+        <figure className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-10">
           <img
             src={imagen}
             alt={nombre}
-            className="max-h-80 w-full object-contain hover:scale-105 transition-transform duration-300"
+            className="max-h-full w-full object-contain transition-transform duration-300 hover:scale-105"
           />
-        </div>
+        </figure>
 
-        <div className="flex flex-col justify-between">
+        <article className="flex flex-col justify-center">
           <div>
-            <span className="inline-block text-xs uppercase font-bold text-indigo-400 tracking-wider bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20 mb-3">
+            <span className="mb-4 inline-block rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-indigo-700">
               {categoria}
             </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-snug mb-4">
+            <h1 className="mb-4 text-3xl font-extrabold leading-tight text-slate-900 md:text-4xl">
               {nombre}
             </h1>
-            <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+            <p className="mb-8 text-base leading-relaxed text-slate-600">
               {descripcion}
             </p>
           </div>
 
-          <div className="pt-6 border-t border-slate-700/50">
-            <div className="text-3xl md:text-4xl font-black text-white mb-6">
+          <div className="border-t border-slate-200 pt-6">
+            <p className="mb-6 text-3xl font-black text-slate-900 md:text-4xl">
               $
               {precio.toLocaleString("es-AR", {
                 minimumFractionDigits: 2,
               })}
-            </div>
+            </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-              <div className="flex items-center justify-between bg-slate-900/80 rounded-xl border border-slate-700/60 p-1">
+            <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
+              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-1">
                 <button
                   type="button"
                   aria-label="Disminuir cantidad"
                   onClick={() => cambiarCantidad(-1)}
-                  className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg font-bold text-lg transition-colors cursor-pointer"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 >
                   −
                 </button>
-                <span className="px-4 font-semibold text-white select-none">
+                <span className="select-none px-4 font-semibold text-slate-800">
                   {cantidad}
                 </span>
                 <button
                   type="button"
                   aria-label="Aumentar cantidad"
                   onClick={() => cambiarCantidad(1)}
-                  className="w-10 h-10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg font-bold text-lg transition-colors cursor-pointer"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 >
                   +
                 </button>
@@ -145,7 +148,7 @@ const Producto = () => {
 
               <button
                 type="button"
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-indigo-500 active:scale-95"
               >
                 <svg
                   className="w-5 h-5"
@@ -165,9 +168,9 @@ const Producto = () => {
               </button>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
   );
 };
 
