@@ -15,8 +15,6 @@ const AdminRoute = () => {
 
   if (user.rol !== "admin") {
     return <Navigate to="/" replace />;
-  } else {
-    return <Navigate to="/admin" replace />;
   }
 
   return <Outlet />;
