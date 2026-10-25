@@ -39,7 +39,7 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 ### Fase 2 · Navegación, filtros, detalle y home (17 al 21/10)
 
 - [x] **2.1** Rutas `/`, `/productos`, `/productos/:id`, `/403` y comodín 404; Navbar con `Link` — **Barby** · Lun 19/10
-- [ ] **2.2** Catálogo con filtros combinables (categoría y tag), búsqueda textual y orden por precio — **David** · Mar 20/10
+- [x] **2.2** Catálogo con filtros combinables (categoría y tag), búsqueda textual y orden por precio — **David** · Mar 20/10
 - [X] **2.3** Detalle `/productos/:id` con `useParams`: descripción, galería de imágenes, 404 si el ID no existe y botón de compra (aún sin lógica de login) — **Barby** · Mar 20/10
 - [ ] **2.4** Home con categorías visibles, secciones por tag (Promoción, Orgánico), tarjetas y buscador que lleva al catálogo — **Rodri** · Mar 20/10
 - [ ] **2.5** Revisión cruzada de los Pull Requests y demo interna de la Fase 2 — **Todos** · Mié 21/10
