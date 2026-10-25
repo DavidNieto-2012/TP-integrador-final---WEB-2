@@ -3,6 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { productService, categoryService, tagService } from "../services/index";
 
 
+import ProductCard from "../components/ProductCard";
+import ProductSkeleton from "../components/ProductSkeleton";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
@@ -136,7 +138,7 @@ const Productos = () => {
       {loading ? (
         <div>
           <p className="text-xl font-bold text-slate-300 mb-2">Cargando productos...</p>
-          <p> Agregar luego el componente para el producto-skeleton</p>
+          <ProductSkeleton />
         </div>
 
       ) : error ? (
@@ -145,12 +147,10 @@ const Productos = () => {
         <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* Agregar luego el componente para el producto-card */}
           {productosFiltrados.map((p) => (
             <div key={p.id} className="max-w-2xl mx-auto my-12 p-8 text-center bg-slate-800/40 border border-slate-700/50 rounded-3xl shadow-xl">
               <Link to={`/productos/${p.id}`}>
-                <h3>{p.title}</h3>
-                <p>{p.price}</p>
+                <ProductCard product={p} />
               </Link>
 
             </div>
