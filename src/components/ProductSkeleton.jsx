@@ -1,4 +1,4 @@
-export const ProductSkeleton = () => {
+const ProductSkeleton = () => {
   return (
     <div className="border border-slate-700/50 rounded-2xl p-4 bg-slate-800/40 animate-pulse flex flex-col justify-between h-full">
       <div>
@@ -14,3 +14,4 @@ export const ProductSkeleton = () => {
     </div>
   );
 };
+export default ProductSkeleton;
