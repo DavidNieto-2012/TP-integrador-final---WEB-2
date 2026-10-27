@@ -3,8 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { productService, categoryService, tagService } from "../services/index";
 
 
-import ProductCard from "../components/ProductCard";
-import ProductSkeleton from "../components/ProductSkeleton";
+import ProductCard from "../components/Productos/ProductCard";
+import ProductSkeleton from "../components/Productos/ProductSkeleton";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
