@@ -51,10 +51,38 @@ export const productService = {
     );
   },
 
+
+
+  //métodos para crear, borrar y Actualizar CRUD
+
+  async createProduct(producto) {
+    requireAdmin();
+    return await apiClient('/products/', {
+      method: 'POST',
+      body: JSON.stringify(producto),
+    });
+
+  },
+
+  async updateProduct(id, producto) {
+    requireAdmin();
+    return await apiClient(`/products/${id}/`, {
+      method: 'PUT',
+      body: JSON.stringify(producto),
+    });
+  },
+
+  async deleteProduct(id) {
+    requireAdmin();
+    return await apiClient(`/products/${id}/`, {
+      method: 'DELETE',
+    });
+  },
+
 };
 
 //funcion que chequea que sea admin
-function validarAdmin() {
+function requireAdmin() {
   const sesion = JSON.parse(localStorage.getItem("sesion") || "null");
   if (!sesion || sesion.rol !== "admin") {
 
@@ -63,3 +91,5 @@ function validarAdmin() {
     throw error;
   }
 }
+
+
