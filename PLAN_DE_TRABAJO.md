@@ -53,7 +53,7 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 ### Fase 4 · Carrito y compra simulada (24 al 26/10)
 
 - [ ] **4.1** `CartContext`: agregar, quitar, cambiar cantidad y subtotal, con persistencia en localStorage — **David** · Dom 25/10
-- [ ] **4.2** Pantalla `/carrito` con cantidades, subtotales y total; `/carrito` y `/checkout` exigen sesión — **Barby** · Lun 26/10
+- [X] **4.2** Pantalla `/carrito` con cantidades, subtotales y total; `/carrito` y `/checkout` exigen sesión — **Barby** · Lun 26/10
 - [ ] **4.3** `/checkout` con confirmación sin cobro, y botón de compra condicionado a login en detalle y tarjetas — **Rodri** · Lun 26/10
 
 ### Fase 5 · Panel de administración con CRUD (27 al 31/10)

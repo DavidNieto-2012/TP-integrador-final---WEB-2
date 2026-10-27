@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getImageUrl, productService } from "../services/index";
+import { useCarrito} from "../context/CarritoProvisorio";
 import ProductSkeleton from "../components/ProductSkeleton";
 
 const Producto = () => {
@@ -9,6 +10,8 @@ const Producto = () => {
   const [error, setError] = useState(null);
   const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState(1);
+  const { agregarAlCarrito } = useCarrito()
+  
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -148,6 +151,7 @@ const Producto = () => {
 
               <button
                 type="button"
+                onClick={() => agregarAlCarrito(producto, cantidad)}
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-indigo-500 active:scale-95"
               >
                 <svg
