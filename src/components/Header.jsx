@@ -48,27 +48,46 @@ const Header = () => {
 
     {/*botón para admins*/}
     {user?.rol === "admin" && (
-
-<Link to="/admin" className="text xs sm:text-sm font-bold bg-amber-100 text-amber-800 border-amber-300"> Panel admin
-
-</Link>
-
+      <Link
+        to="/admin"
+        className="text-xs sm:text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300 rounded px-2 py-1 hover:bg-amber-200"
+      >
+        Panel admin
+      </Link>
     )}
 
           {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
           <button onClick={() => navigate("/carrito")}>Carrito</button>
+
+          {/*aparece el botón salir y se muestra su usuario si se está logueado, caso contrario muestra "ingresar"*/}
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-block text-xs font-medium text-slate-600">
+                {user.nombre || user.name || user.username}
+                <span className="ml-1 text-[10px] uppercase font-bold text-indigo-600">
+                  ({user.rol})
+                </span> 
+              </span>
+
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="text-xs sm:text-sm font-semibold text-red-600 hover:text-red-700"
+              >
+                Salir
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
+            >
+              Ingresar
+            </Link>
+          )}
         </div>
-
-    {/*aparece el botón salir y se muestra su usuario si se está logueado, caso contrario muestra "ingresar"*/}
-
-    if (user)
-
-        <Link
-          to="/login"
-          className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
-        >
-          Ingresar
-        </Link>
       </div>
 
       <nav
