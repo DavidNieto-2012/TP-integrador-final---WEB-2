@@ -1,5 +1,10 @@
 # TP Integrador Final - E-Commerce Web
 
+## Alumnos:
+    * Nieto David
+    * Garcia Schmitd Barbara
+    * Santillan Rodrigo
+
 ### Proyecto integrador para la materia Web 2.
 
 ## Instrucciones de Instalación y Ejecución.
