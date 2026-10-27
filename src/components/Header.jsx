@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthProvisorio";
 
 const Header = () => {
   const navigate = useNavigate();
-  const {user, logout} = useAuth(); // sirve para obtener el usuario y el logout
+  const { user, logout } = useAuth(); // sirve para obtener el usuario y el logout
   const [busqueda, setBusqueda] = useState("");
   const buscar = (e) => {
     e.preventDefault();//esto  evita que el formulario recargue toda la pag.
@@ -44,17 +44,17 @@ const Header = () => {
         <div className="flex items-center gap-3">
           <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
             Catálogo {/*diria de quitar el link catálogo porque ya está, es el "ver todos"*/}
-          </Link> 
+          </Link>
 
-    {/*botón para admins*/}
-    {user?.rol === "admin" && (
-      <Link
-        to="/admin"
-        className="text-xs sm:text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300 rounded px-2 py-1 hover:bg-amber-200"
-      >
-        Panel admin
-      </Link>
-    )}
+          {/*botón para admins*/}
+          {user?.rol === "admin" && (
+            <Link
+              to="/admin"
+              className="text-xs sm:text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300 rounded px-2 py-1 hover:bg-amber-200"
+            >
+              Panel admin
+            </Link>
+          )}
 
           {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
           <button onClick={() => navigate("/carrito")}>Carrito</button>
@@ -63,10 +63,10 @@ const Header = () => {
           {user ? (
             <div className="flex items-center gap-2">
               <span className="hidden sm:inline-block text-xs font-medium text-slate-600">
-                {user.nombre || user.name || user.username}
+                {user.nombre}
                 <span className="ml-1 text-[10px] uppercase font-bold text-indigo-600">
                   ({user.rol})
-                </span> 
+                </span>
               </span>
 
               <button
