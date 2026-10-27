@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getImageUrl, productService } from "../services/index";
 import { useCarrito} from "../context/CarritoProvisorio";
-import ProductSkeleton from "../components/ProductSkeleton";
+import ProductSkeleton from "../components/Productos/ProductSkeleton";
 
 const Producto = () => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import { getImageUrl } from "../services/index";
+import { getImageUrl } from "../../services/index";
 
 const CarritoItem = ({ item, cambiarCantidad, quitarDelCarrito }) => {
   const imagen = getImageUrl(item.pictures?.[0]);

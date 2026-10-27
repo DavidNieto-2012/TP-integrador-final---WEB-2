@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCarrito } from "../context/CarritoProvisorio";
+import { useCarrito } from "../../context/CarritoProvisorio";
 
 const CarritoBoton = () => {
   const { cantidadTotal } = useCarrito();

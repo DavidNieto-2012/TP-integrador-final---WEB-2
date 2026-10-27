@@ -1,6 +1,6 @@
 import { useCarrito } from "../context/CarritoProvisorio";
 import { Link } from "react-router-dom";
-import CarritoItem from "../components/CarritoItem";
+import CarritoItem from "../components/Carrito/CarritoItem";
 
 
 const Carrito = () => {
