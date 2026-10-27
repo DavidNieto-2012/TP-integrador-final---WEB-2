@@ -17,11 +17,13 @@ const CarritoItem = ({ item, cambiarCantidad, quitarDelCarrito }) => {
         <h3 className="truncate font-bold text-slate-800">
           {item.title || "Producto sin nombre"}
         </h3>
-        <p className="mt-1 font-semibold text-slate-600">
-          ${(precio * cantidad).toFixed(2)}
+        <p className="pt-2">Precio Unitario ${(precio).toFixed(2)}</p>
+        <p className="mt-1  font-semibold text-slate-600">
+          Subtotal ${(precio * cantidad).toFixed(2)}
         </p>
 
         <div className="mt-3 inline-flex items-center gap-3 rounded-lg border border-slate-200 px-2 py-1">
+          <p className=" m-0 inline-flex items-center">Unidades</p>
           <button
             type="button"
             onClick={() => cambiarCantidad(item.id, cantidad - 1)}

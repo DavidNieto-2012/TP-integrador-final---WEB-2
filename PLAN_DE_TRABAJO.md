@@ -94,6 +94,6 @@ Marquen cada caso con `[x]` cuando el resultado obtenido coincida con el esperad
 # CORRECCIONES
 - boton borrar filtros (david)
 - agregar imagen al productorCard (rodri)
-- eliminar boton catalogo de nav (barby)
+- eliminar boton catalogo de nav (barby) HECHO
 - boton panel admin cambiar color (david)
-- poner el icono de carrito en la nav (barby)
+- poner el icono de carrito en la nav (barby) HECHO
