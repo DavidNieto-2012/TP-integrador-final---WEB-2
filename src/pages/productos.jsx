@@ -131,16 +131,14 @@ const Productos = () => {
           ))}
         </select>
 
-        {/* Botón para borrar filtros (se muestra si hay algún filtro o búsqueda activa) */}
-        {(categoria || tag || orden || texto) && (
-          <button
-            type="button"
-            onClick={() => setSearchParams({})}
-            className="rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
-          >
-            Borrar filtros
-          </button>
-        )}
+        {/* Botón para borrar filtros */}
+        <button
+          type="button"
+          onClick={() => setSearchParams({})}
+          className="rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+        >
+          Borrar filtros
+        </button>
       </div>
 
 
