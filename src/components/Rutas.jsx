@@ -9,6 +9,7 @@ import Forbidden from "../pages/Forbidden";
 import Login from "../pages/Login";
 import Admin from "../pages/Admin";
 import Carrito from "../pages/Carrito";
+import Checkout from "../pages/Checkout";
 
 const Rutas = () => {
   return (
@@ -24,6 +25,7 @@ const Rutas = () => {
       {/* Rutas para clientes logueados */}
       <Route element={<ProtectedRoute />}>
         <Route path="/carrito" element={<Carrito />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Route>
 
       {/* Rutas para administradores*/}

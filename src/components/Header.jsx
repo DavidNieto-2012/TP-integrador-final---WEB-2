@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvisorio";
+import CarritoBoton from "./Carrito/CarritoBoton";
 
 
 
@@ -42,9 +43,6 @@ const Header = () => {
 
         {/* Acciones derecha */}
         <div className="flex items-center gap-3">
-          <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
-            Catálogo {/*diria de quitar el link catálogo porque ya está, es el "ver todos"*/}
-          </Link>
 
           {/*botón para admins*/}
           {user?.rol === "admin" && (
@@ -56,8 +54,7 @@ const Header = () => {
             </Link>
           )}
 
-          {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
-          <button onClick={() => navigate("/carrito")}>Carrito</button>
+          <CarritoBoton />
 
           {/*aparece el botón salir y se muestra su usuario si se está logueado, caso contrario muestra "ingresar"*/}
           {user ? (
