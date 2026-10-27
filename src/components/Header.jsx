@@ -43,11 +43,26 @@ const Header = () => {
         {/* Acciones derecha */}
         <div className="flex items-center gap-3">
           <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
-            Catálogo
-          </Link>
+            Catálogo {/*diria de quitar el link catálogo porque ya está, es el "ver todos"*/}
+          </Link> 
+
+    {/*botón para admins*/}
+    {user?.rol === "admin" && (
+
+<Link to="/admin" className="text xs sm:text-sm font-bold bg-amber-100 text-amber-800 border-amber-300"> Panel admin
+
+</Link>
+
+    )}
+
           {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
           <button onClick={() => navigate("/carrito")}>Carrito</button>
         </div>
+
+    {/*aparece el botón salir y se muestra su usuario si se está logueado, caso contrario muestra "ingresar"*/}
+
+    if (user)
+
         <Link
           to="/login"
           className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
