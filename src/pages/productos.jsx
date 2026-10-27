@@ -85,7 +85,7 @@ const Productos = () => {
 
       {/*Filtros*/}
 
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-6 ">
 
 
         <select
@@ -95,27 +95,30 @@ const Productos = () => {
             if (e.target.value) nuevos.set("orden", e.target.value);
             else nuevos.delete("orden");
             setSearchParams(nuevos);
-          }}>
-
+          }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
+        >
           <option value="">Ordenar por precio</option>
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
 
         <select
-          value={categoria || ""} //
+          value={categoria || ""}
           onChange={(e) => {
             const nuevos = new URLSearchParams(searchParams);
             if (e.target.value) nuevos.set("categoria", e.target.value);
             else nuevos.delete("categoria");
             setSearchParams(nuevos);
           }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
         >
           <option value="">Todas las categorías</option>
           {categorias.map((c) => (
-            <option key={c.id} value={c.id}>{c.name}</option> //el value es el id de la categoria asi se filtra por categoria
+            <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>
+
         <select
           value={tag || ""}
           onChange={(e) => {
@@ -124,6 +127,7 @@ const Productos = () => {
             else nuevos.delete("tag");
             setSearchParams(nuevos);
           }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
         >
           <option value="">Todos los tags</option>
           {tags.map((t) => (
