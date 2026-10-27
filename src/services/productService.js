@@ -36,7 +36,7 @@ export const productService = {
   async getProductsInPromotion() {
     const products = await productService.getProducts();
     return products.filter(
-      (product) => productService.hasTag(product, 'Promoción') || productService.hasTag(product, 'Promocion')
+      (product) => productService.hasTag(product, 'Promoción')
     );
   },
 
@@ -51,4 +51,45 @@ export const productService = {
     );
   },
 
+
+
+  //métodos para crear, borrar y Actualizar CRUD
+
+  async createProduct(producto) {
+    requireAdmin();
+    return await apiClient('/products/', {
+      method: 'POST',
+      body: JSON.stringify(producto),
+    });
+
+  },
+
+  async updateProduct(id, producto) {
+    requireAdmin();
+    return await apiClient(`/products/${id}/`, {
+      method: 'PUT',
+      body: JSON.stringify(producto),
+    });
+  },
+
+  async deleteProduct(id) {
+    requireAdmin();
+    return await apiClient(`/products/${id}/`, {
+      method: 'DELETE',
+    });
+  },
+
 };
+
+//funcion que chequea que sea admin
+function requireAdmin() {
+  const sesion = JSON.parse(localStorage.getItem("sesion") || "null");
+  if (!sesion || sesion.rol !== "admin") {
+
+    const error = new Error("Acceso denegado");
+    error.status = 403;
+    throw error;
+  }
+}
+
+
