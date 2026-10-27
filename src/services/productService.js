@@ -36,7 +36,7 @@ export const productService = {
   async getProductsInPromotion() {
     const products = await productService.getProducts();
     return products.filter(
-      (product) => productService.hasTag(product, 'Promoción') || productService.hasTag(product, 'Promocion')
+      (product) => productService.hasTag(product, 'Promoción')
     );
   },
 
@@ -52,3 +52,14 @@ export const productService = {
   },
 
 };
+
+//funcion que chequea que sea admin
+function validarAdmin() {
+  const sesion = JSON.parse(localStorage.getItem("sesion") || "null");
+  if (!sesion || sesion.rol !== "admin") {
+
+    const error = new Error("Acceso denegado");
+    error.status = 403;
+    throw error;
+  }
+}

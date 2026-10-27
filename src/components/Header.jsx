@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvisorio";
 
 
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const {user, logout} = useAuth(); // sirve para obtener el usuario y el logout
   const [busqueda, setBusqueda] = useState("");
-const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recargue toda la pag.
-  
-  navigate(`/productos?q=${encodeURIComponent(busqueda)}`); //encodeURIComponent sirve para convertir los caracteres raros en válidos para una URL.
-}
+  const buscar = (e) => {
+    e.preventDefault();//esto  evita que el formulario recargue toda la pag.
+
+    navigate(`/productos?q=${encodeURIComponent(busqueda)}`); //encodeURIComponent sirve para convertir los caracteres raros en válidos para una URL.
+  }
   return (
     <header className="bg-white">
       {/* Navbar */}
@@ -24,35 +26,35 @@ const buscar = (e) => { e.preventDefault();//esto  evita que el formulario recar
           </span>
         </Link>
 
-          {/* Buscador */}
-          <div className="flex-1 max-w-md hidden md:block">
-            <form onSubmit={buscar} className="relative">
-              <input 
-                type="text" 
-                placeholder="Buscar" 
-                value= {busqueda}
-                onChange={(e)=>setBusqueda(e.target.value)}
-                className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white text-slate-700"
-              />
-              
-            </form>
-          </div>
+        {/* Buscador */}
+        <div className="flex-1 max-w-md hidden md:block">
+          <form onSubmit={buscar} className="relative">
+            <input
+              type="text"
+              placeholder="Buscar"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white text-slate-700"
+            />
 
-          {/* Acciones derecha */}
-          <div className="flex items-center gap-3">
-            <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
-              Catálogo
-            </Link>
-            {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
-          <button onClick={() => navigate("/carrito")}>Carrito</button>
-          </div>
-          <Link
-            to="/login"
-            className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
-          >
-            Ingresar
-          </Link>
+          </form>
         </div>
+
+        {/* Acciones derecha */}
+        <div className="flex items-center gap-3">
+          <Link to="/productos" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 hidden sm:inline">
+            Catálogo
+          </Link>
+          {/* REEMPLAZAR CON EL COMPONENTE DEL CARRITO <carrito-boton></carrito-boton>*/}
+          <button onClick={() => navigate("/carrito")}>Carrito</button>
+        </div>
+        <Link
+          to="/login"
+          className="hidden text-sm font-semibold text-slate-700 hover:text-indigo-600 sm:inline"
+        >
+          Ingresar
+        </Link>
+      </div>
 
       <nav
         aria-label="Categorías"
