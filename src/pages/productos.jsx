@@ -85,7 +85,7 @@ const Productos = () => {
 
       {/*Filtros*/}
 
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-6 ">
 
 
         <select
@@ -95,27 +95,30 @@ const Productos = () => {
             if (e.target.value) nuevos.set("orden", e.target.value);
             else nuevos.delete("orden");
             setSearchParams(nuevos);
-          }}>
-
+          }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
+        >
           <option value="">Ordenar por precio</option>
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
 
         <select
-          value={categoria || ""} //
+          value={categoria || ""}
           onChange={(e) => {
             const nuevos = new URLSearchParams(searchParams);
             if (e.target.value) nuevos.set("categoria", e.target.value);
             else nuevos.delete("categoria");
             setSearchParams(nuevos);
           }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
         >
           <option value="">Todas las categorías</option>
           {categorias.map((c) => (
-            <option key={c.id} value={c.id}>{c.name}</option> //el value es el id de la categoria asi se filtra por categoria
+            <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>
+
         <select
           value={tag || ""}
           onChange={(e) => {
@@ -124,12 +127,22 @@ const Productos = () => {
             else nuevos.delete("tag");
             setSearchParams(nuevos);
           }}
+          className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 text-center cursor-pointer"
         >
           <option value="">Todos los tags</option>
           {tags.map((t) => (
             <option key={t.id} value={t.title}>{t.title}</option>
           ))}
         </select>
+
+        {/* Botón para borrar filtros */}
+        <button
+          type="button"
+          onClick={() => setSearchParams({})}
+          className="rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors"
+        >
+          Borrar filtros
+        </button>
       </div>
 
 
@@ -148,8 +161,7 @@ const Productos = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {productosFiltrados.map((p) => (
-
-            <Link to={`/productos/${p.id}`}>
+            <Link key={p.id} to={`/productos/${p.id}`}>
               <ProductCard product={p} />
             </Link>
           ))}
