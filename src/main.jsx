@@ -7,10 +7,10 @@ import { CartProvider } from "./context/cartContext.jsx";
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <CartProvider>
     <AuthProvider>
-      <App />
+      <CartProvider>
+        <App />
+      </CartProvider>
     </AuthProvider>
-    </CartProvider>
   </BrowserRouter>,
 )
