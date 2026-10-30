@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminRoute from "../components/AdminRoute";
 
@@ -7,7 +7,10 @@ import Producto from "../pages/Producto";
 import Home from "../pages/Home";
 import Forbidden from "../pages/Forbidden";
 import Login from "../pages/Login";
-import Admin from "../pages/Admin";
+import AdminLayout from "../pages/Admin/AdminLayout";
+import AdminCategorias from "../pages/Admin/AdminCategorias"
+import AdminProductos from "../pages/Admin/AdminProductos"
+import AdminTags from "../pages/Admin/AdminTags"
 import Carrito from "../pages/Carrito";
 import Checkout from "../pages/Checkout";
 
@@ -30,9 +33,14 @@ const Rutas = () => {
 
       {/* Rutas para administradores*/}
       <Route element={<AdminRoute />}>
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/productos" replace />} />
+          <Route path="productos" element={<AdminProductos />} />
+          <Route path="categorias" element={<AdminCategorias />} />
+          <Route path="tags" element={<AdminTags />} />
+        </Route>
       </Route>
-      
+
     </Routes>
   );
 };
