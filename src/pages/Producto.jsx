@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getImageUrl, productService } from "../services/index";
-import { useCarrito} from "../context/CarritoProvisorio";
+import { useCarrito } from "../context/cartContext";
 import ProductSkeleton from "../components/Productos/ProductSkeleton";
 
 const Producto = () => {
