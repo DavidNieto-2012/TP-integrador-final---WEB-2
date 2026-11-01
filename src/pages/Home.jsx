@@ -146,28 +146,36 @@ const Home = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {promos.length > 0
                 ? promos.map((prod) => (
-                  <ProductCard key={prod.id || prod._id} product={prod} />
+                  <Link key={prod.id} to={`/productos/${prod.id}`}>
+                    <ProductCard product={prod} />
+                  </Link>
                 ))
                 : productos
                   .slice(0, 4)
                   .map((prod) => (
-                    <ProductCard key={prod.id || prod._id} product={prod} />
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
                   ))}
             </div>
           </section>
-          
+
           {/* 4. Sección Orgánicos */}
           <section className="mb-12 text-left">
             <h2 className="text-2xl font-bold mb-6">Productos Orgánicos</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {organicos.length > 0
                 ? organicos.map((prod) => (
-                  <ProductCard key={prod.id || prod._id} product={prod} />
-                ))
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
+                  ))
                 : productos
                   .slice(4, 8)
                   .map((prod) => (
-                    <ProductCard key={prod.id || prod._id} product={prod} />
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
                   ))}
             </div>
           </section>
