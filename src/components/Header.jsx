@@ -48,7 +48,7 @@ const Header = () => {
           {user?.rol === "admin" && (
             <Link
               to="/admin"
-              className="text-xs sm:text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300 rounded px-2 py-1 hover:bg-amber-200"
+              className="text-xs sm:text-sm font-bold bg-indigo-100 text-indigo-800 border border-indigo-500 rounded px-2 py-1 hover:bg-indigo-200"
             >
               Panel admin
             </Link>
