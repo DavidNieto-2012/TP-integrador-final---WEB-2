@@ -49,7 +49,3 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 - [ ] **5.3** CRUD de categorías con regla para borrar una categoría con productos asociados (bloquear o reasignar; decidirlo y documentarlo) y confirmación antes de borrar — **David** · Vie 30/10
 - [ ] **5.4** CRUD de productos: formulario con campos obligatorios, precio positivo, validación de imágenes e IDs, y cambio de categoría y tags — **Rodri** · Sáb 31/10
 
-
-# CORRECCIONES
-- agregar imagen al productorCard (rodri)
-- boton panel admin cambiar color (david)
