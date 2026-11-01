@@ -1,47 +1,60 @@
+import { getImageUrl } from "../../services/index";
+import { useCarrito } from "../../context/cartContext";
+import { useAuth } from "../../context/AuthProvisorio";
+import { useNavigate } from "react-router-dom";
+
 const ProductCard = ({ product }) => {
-  const { title, price, image, picture, category } = product || {};
+  const { title, price, picture, category } = product || {};
 
   // Evaluamos la URL de la imagen recibida
-  const imgUrl = image || picture;
+  const primeraImagen = product?.pictures?.[0] || picture;
+  const imagen = primeraImagen ? getImageUrl(primeraImagen) : 'https://placehold.co/400x400?text=Sin+Imagen';
 
   // Extraemos el nombre de la categoría si viene como objeto o string
   const categoryName = typeof category === "object" ? category?.title || category?.name : category;
 
+  const { agregarAlCarrito } = useCarrito();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAgregar = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    agregarAlCarrito(product);
+  };
+
   return (
-    <div className="border border-slate-700/50 rounded-2xl p-4 shadow-lg hover:shadow-xl transition bg-slate-800/60 text-white flex flex-col justify-between h-full">
-      <div>
-        <div className="w-full h-48 bg-slate-700/50 rounded-xl mb-4 overflow-hidden flex items-center justify-center">
-          {imgUrl ? (
-            <img
-              src={imgUrl}
-              alt={title || "Producto"}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://via.placeholder.com/300x200?text=Sin+Imagen";
-              }}
-            />
-          ) : (
-            <span className="text-slate-400 text-sm font-medium">Sin imagen</span>
-          )}
+    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-sm transition-shadow hover:shadow-md">
+      <div className="flex flex-col">
+        <div className="order-1 flex aspect-square w-full items-center justify-center overflow-hidden bg-white">
+          <img
+            src={imagen}
+            alt={title || "Producto"}
+            className="h-full w-full object-contain p-3 transition-transform duration-300 hover:scale-105"
+          />
         </div>
 
-        <h3 className="font-bold text-lg text-slate-100 line-clamp-2 mb-1">
+        <h3 className="order-3 px-4 pb-1 pt-1 text-base font-semibold text-slate-900 line-clamp-2">
           {title || "Producto sin nombre"}
         </h3>
         
         {categoryName && (
-          <span className="inline-block text-xs font-medium text-slate-400 mb-2">
+          <span className="order-2 px-4 pt-4 text-xs uppercase tracking-wide text-slate-400">
             {categoryName}
           </span>
         )}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between">
-        <p className="text-xl font-extrabold text-emerald-400">
+      <div className="mt-auto flex items-center justify-between border-t border-slate-200 px-4 pb-4 pt-3">
+        <p className="text-lg font-bold text-slate-900">
           ${price}
         </p>
-        <button className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition">
+        <button type="button"
+          onClick={handleAgregar}  className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
           Agregar
         </button>
       </div>

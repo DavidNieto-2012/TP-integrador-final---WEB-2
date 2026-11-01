@@ -4,27 +4,13 @@ Equipo: Barby, David y Rodri
 
 Marquen cada tarea con `[x]` cuando esté terminada, mergeada en `main` y anotada en el README.
 
-Entrega: **lunes 02/11**. Las funciones se cierran el **sábado 31/10**. El martes 03/11 es solo reserva para corregir errores de último momento; no se programa nada nuevo.
-
-Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servicios, rutas, estado global con Context, formularios y CRUD, pruebas y documentación). Quien programa una parte no es quien la revisa ni quien la prueba.
+Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servicios, rutas, estado global con Context, formularios y CRUD, pruebas y documentación). 
 
 ## Reglas del equipo
 
 - **Git:** `main` solo tiene código que funciona. Una rama por tarea (por ejemplo `feature/1-2-servicios`) y un Pull Request que revisa otra persona, nunca quien lo escribió.
 - **Tarea terminada:** funciona, tiene estados de carga y error, está en `main`.
 - **Nunca al repositorio:** `node_modules`, archivos `.env`, claves ni el token de la API.
-
-## Calendario general
-
-| Fase | Tema | Fechas |
-| --- | --- | --- |
-| 1 | Migrar a React y traer el catálogo | 13/10 al 16/10 |
-| 2 | Navegación, filtros, detalle y home | 17/10 al 21/10 |
-| 3 | Login, roles y rutas protegidas | 22/10 al 23/10 |
-| 4 | Carrito y compra simulada | 24/10 al 26/10 |
-| 5 | Panel de administración con CRUD | 27/10 al 31/10 |
-| 6 | Pruebas, documentación y entrega | 01/11 al 02/11 |
-| Reserva | Solo correcciones | 03/11 |
 
 ## Tareas por fase
 
@@ -62,38 +48,4 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 - [X] **5.2** Layout de `/admin` con menú a los tres módulos y rutas `/admin/productos`, `/admin/categorias` y `/admin/tags`; CRUD de tags — **Barby** · Vie 30/10
 - [ ] **5.3** CRUD de categorías con regla para borrar una categoría con productos asociados (bloquear o reasignar; decidirlo y documentarlo) y confirmación antes de borrar — **David** · Vie 30/10
 - [ ] **5.4** CRUD de productos: formulario con campos obligatorios, precio positivo, validación de imágenes e IDs, y cambio de categoría y tags — **Rodri** · Sáb 31/10
-- [ ] **5.5** Revisión cruzada de los tres módulos y cierre de funciones (después de esta fecha no se agregan funciones nuevas) — **Todos** · Sáb 31/10
 
-### Fase 6 · Pruebas, documentación y entrega (1 y 2/11)
-
-Cada persona prueba lo que escribió otra.
-
-- [ ] **6.1** Pruebas de roles y accesos: visitante a `/admin`, cliente a `/admin/productos`, login y redirecciones — **David** · Dom 1/11
-- [ ] **6.2** Pruebas de CRUD: crear, editar y borrar un producto, cambiar categoría y tags, borrar una categoría con productos — **Barby** · Dom 1/11
-- [ ] **6.3** Pruebas de carrito y compra, recarga de página y fallo del fetch (cortar la red o usar una URL de la API incorrecta) — **Rodri** · Dom 1/11
-- [ ] **6.4** README final: instalación, cuentas demo y permisos, origen de datos — **Barby** · Lun 2/11
-- [ ] **6.5** Documento del modelo de datos (referencias, edición y eliminación con dependencias) y declaración de que el token de la API no está en React ni en el repositorio y de que el control por rol de la interfaz no reemplaza la autorización del servidor — **David** · Lun 2/11
-- [ ] **6.6** Capturas o video corto y tabla de pruebas con resultado esperado y obtenido — **Rodri** · Lun 2/11
-- [ ] **6.7** Revisión final: clonar el repo en limpio, correr `npm install` y `npm run dev`, confirmar que no hay `node_modules` ni credenciales, y entregar — **Todos** · Lun 2/11
-
-
-## Casos de prueba
-
-Marquen cada caso con `[x]` cuando el resultado obtenido coincida con el esperado y anoten abajo cualquier diferencia.
-
-- [ ] **Visitante intenta entrar a `/admin`** — Esperado: lo redirige a `/login` — Prueba: David — Obtenido: …
-- [ ] **Cliente intenta acceder a `/admin/productos`** — Esperado: muestra la pantalla `/403` — Prueba: David — Obtenido: …
-- [ ] **Administrador crea, edita y borra un producto** — Esperado: los cambios se ven en el panel y en el catálogo; el borrado pide confirmación — Prueba: Barby — Obtenido: …
-- [ ] **Se cambia la categoría y los tags de un producto** — Esperado: el producto aparece en la nueva categoría y en los filtros de sus tags — Prueba: Barby — Obtenido: …
-- [ ] **Se elimina una categoría con productos asociados** — Esperado: se aplica la regla elegida (bloquear o reasignar) y no quedan productos sin categoría — Prueba: Barby — Obtenido: …
-- [ ] **Cliente agrega artículos y confirma la compra** — Esperado: subtotales y total correctos; el checkout confirma sin cobro y vacía el carrito — Prueba: Rodri — Obtenido: …
-- [ ] **Falla el fetch** — Esperado: mensaje de error comprensible, sin pantalla en blanco — Prueba: Rodri — Obtenido: …
-- [ ] **Recarga de la página** — Esperado: el carrito se conserva y los cambios del administrador siguen visibles porque vienen de la API — Prueba: Rodri — Obtenido: …
-
-
-# CORRECCIONES
-- boton borrar filtros (david)
-- agregar imagen al productorCard (rodri)
-- eliminar boton catalogo de nav (barby) HECHO
-- boton panel admin cambiar color (david)
-- poner el icono de carrito en la nav (barby) HECHO

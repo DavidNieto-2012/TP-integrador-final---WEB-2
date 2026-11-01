@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ProductCard } from "../components/ProductCard";
+import ProductCard from "../components/Productos/ProductCard";
 import { productService } from "../services/index";
 
 const Home = () => {
@@ -82,19 +82,7 @@ const Home = () => {
   );
 
   return (
-    <div className="w-full px-4 py-8 home-custom-theme">
-      {/* Estilo local para reemplazar el verde emerald de ProductCard por el violeta global sin tocar el componente */}
-      <style>{`
-        .home-custom-theme button.bg-emerald-600 {
-          background-color: var(--accent) !important;
-        }
-        .home-custom-theme button.bg-emerald-600:hover {
-          opacity: 0.9;
-        }
-        .home-custom-theme p.text-emerald-400 {
-          color: var(--accent) !important;
-        }
-      `}</style>
+    <div className="max-w-7xl mx-auto px-4 py-8">
 
       {/* 1. Buscador */}
       <section className="text-center mb-10">
@@ -158,13 +146,17 @@ const Home = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {promos.length > 0
                 ? promos.map((prod) => (
-                    <ProductCard key={prod.id || prod._id} product={prod} />
-                  ))
+                  <Link key={prod.id} to={`/productos/${prod.id}`}>
+                    <ProductCard product={prod} />
+                  </Link>
+                ))
                 : productos
-                    .slice(0, 4)
-                    .map((prod) => (
-                      <ProductCard key={prod.id || prod._id} product={prod} />
-                    ))}
+                  .slice(0, 4)
+                  .map((prod) => (
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
+                  ))}
             </div>
           </section>
 
@@ -174,13 +166,17 @@ const Home = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {organicos.length > 0
                 ? organicos.map((prod) => (
-                    <ProductCard key={prod.id || prod._id} product={prod} />
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
                   ))
                 : productos
-                    .slice(4, 8)
-                    .map((prod) => (
-                      <ProductCard key={prod.id || prod._id} product={prod} />
-                    ))}
+                  .slice(4, 8)
+                  .map((prod) => (
+                    <Link key={prod.id} to={`/productos/${prod.id}`}>
+                      <ProductCard product={prod} />
+                    </Link>
+                  ))}
             </div>
           </section>
         </>
