@@ -1,6 +1,44 @@
 
 import { apiClient } from './apiClient';
 
+const traducirError = (error) => {
+  if (error instanceof TypeError) {
+    return "No se pudo conectar con el servidor. Revisá tu conexión.";
+  }
+  if (error.status === 401 || error.status === 403) {
+    return "No tenés permiso para esta operación.";
+  }
+  if (error.status === 404) {
+    return "No se encontró el tag. Puede que ya no exista.";
+  }
+  if (error.status === 422) {
+    const msg = error.data?.detail?.[0]?.msg;
+    return msg ? `Datos inválidos: ${msg}` : "Los datos enviados no son válidos.";
+  }
+  return "El servidor tuvo un problema. Intentá de nuevo más tarde.";
+};
+
+const normalizar = (texto) =>
+  texto
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+const existeTitulo = async (title, excluirId = null) => {
+  let data;
+  try {
+    data = await apiClient('/tags/');
+  } catch (error) {
+    throw new Error(traducirError(error));
+  }
+  const lista = Array.isArray(data) ? data : data?.results || [];
+  const buscado = title.trim().toLowerCase();
+  return lista.some(
+    (t) =>
+      String(t.id) !== String(excluirId) &&
+      normalizar(t.title) === buscado
+  );
+};
 
 export const tagService = {
   /**
@@ -11,15 +49,15 @@ export const tagService = {
    * @returns {Promise<Array<{id: string, title: string}>>} Lista normalizada de tags
    */
   async getTags() {
-  try {
-    const data = await apiClient('/tags/');
-    const rawTags = Array.isArray(data) ? data : data?.results || [];
-    return this.normalizeTags(rawTags);
-  } catch (error) {
-    console.error('[tagService] Error al obtener tags:', error.message);
-    return [];
-  }
-},
+    try {
+      const data = await apiClient('/tags/');
+      const rawTags = Array.isArray(data) ? data : data?.results || [];
+      return this.normalizeTags(rawTags);
+    } catch (error) {
+      console.error('[tagService] Error al obtener tags:', error.message);
+      return [];
+    }
+  },
 
   /**
    * Normaliza un array arbitrario de tags a un formato consistente { id, title }.
@@ -53,5 +91,45 @@ export const tagService = {
       .filter(Boolean);
   },
 
+  // Funciones para el CRUD
   
+  async crearTag(title) {
+    if (await existeTitulo(title)) {
+      throw new Error("Ya existe un tag con ese nombre.");
+    }
+    try {
+      return await apiClient('/tags/', {
+        method: 'POST',
+        body: JSON.stringify({ title: title.trim() }),
+      });
+    } catch (error) {
+      throw new Error(traducirError(error));
+    }
+  },
+
+  async actualizarTag(id, title) {
+    if (await existeTitulo(title, id)) {
+      throw new Error("Ya existe un tag con ese nombre.");
+    }
+    try {
+      return await apiClient(`/tags/${id}/`, {
+        method: 'PUT',
+        body: JSON.stringify({ title: title.trim() }),
+      });
+    } catch (error) {
+      throw new Error(traducirError(error));
+    }
+  },
+
+  async eliminarTag(id) {
+    try {
+      return await apiClient(`/tags/${id}/`, {
+        method: 'DELETE',
+      });
+    }
+    catch (error) {
+      throw new Error(traducirError(error));
+    }
+  },
+
 };
