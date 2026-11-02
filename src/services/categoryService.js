@@ -70,4 +70,47 @@ export const categoryService = {
     return Array.from(categoriesMap.values());
   },
 
+  async createCategory(categoria) {
+
+    requiereAdmin();
+    return await apiClient('/categories/', {
+
+      method: 'POST',
+      body: JSON.stringify(categoria),
+    });
+  },
+
+  async updateCategory(id, categoria) {
+
+    requireAdmin();
+
+    return await apiClient(`/categories/${id}/`, {
+
+      method: 'PUT',
+      body: JSON.stringify(categoria)
+
+
+    });
+
+  },
+
+  async deleteCategory(id) {
+    requireAdmin();
+    return await apiClient(`/categories/${id}/`, {
+      method: 'DELETE',
+    });
+  },
+
+
 };
+
+//funcion que chequea que sea admin
+function requireAdmin() {
+  const sesion = JSON.parse(localStorage.getItem("sesion") || "null");
+  if (!sesion || sesion.rol !== "admin") {
+
+    const error = new Error("Acceso denegado");
+    error.status = 403;
+    throw error;
+  }
+}

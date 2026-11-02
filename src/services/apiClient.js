@@ -1,6 +1,26 @@
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const API_TOKEN = import.meta.env.VITE_API_TOKEN || '';
 
+function getHttpErrorMessage(status, serverMessage){
+if(serverMessage && typeof serverMessage === 'string') {
+return serverMessage
+}
+
+switch(status) {
+  case 401:
+    return 'No tenés permisos o tenes que iniciar sesión.';
+  case 403: 
+    return 'Permiso denegado no tenés permisos de admin';
+  case 404: 
+    return 'El elemento solicitado no existe o se borró';
+  case 500:
+    return'Error en el servidor. Intente más tarde';
+  default:
+    return `Error HTTP ${status}: solicitud no satisfactoria`;
+  }
+
+}
+
 export async function apiClient(endpoint, options = {}) {
   const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
 
@@ -21,11 +41,14 @@ export async function apiClient(endpoint, options = {}) {
     const data = text ? JSON.parse(text) : null;
 
     if (!response.ok) {
-      const errorMessage =
+      const serverMessage =
+        data?.detail?.[0]?.msg ||
         data?.detail ||
-        data?.message ||
-        `Error HTTP ${response.status}: ${response.statusText || 'Solicitud no satisfactoria'}`;
+        data?. message ||
+        null;
+       
 
+const errorMessage = getHttpErrorMessage(response.status,serverMessage);
       const error = new Error(errorMessage);
       error.status = response.status;
       error.data = data;
@@ -34,10 +57,20 @@ export async function apiClient(endpoint, options = {}) {
 
     return data;
   } catch (error) {
-    console.error(`[apiClient] Falló la petición a "${url}":`, error.message);
-    throw error;
+
+    if (error instanceof TypeError && !error.status) {
+
+      const networkError = new Error ('No se pudo conectar con el servidor. Verifica tu conexión');
+      throw networkError;
+    }
+     
+      console.error(`[apiClient] Error de red en "${url}":`, error.message);
+      throw error
+ 
+    }
   }
-}
+  
+
 
 export function getImageUrl(path) {
   if (!path) {

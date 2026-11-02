@@ -41,14 +41,14 @@ La aplicación consume la API REST de la cátedra: `http://ecommerce.fedegonzale
 | --- | --- | --- | --- | --- |
 | Productos | `/products/` | GET | Listado general, filtros y home | Verificado |
 | Producto | `/products/{id}` | GET | Pantalla de detalle | Verificado |
-| Productos | `/products/` | POST | Alta de producto (admin) | (completar) |
-| Producto | `/products/{id}` | PUT | Edición de producto (admin) | (completar) |
-| Producto | `/products/{id}` | DELETE | Baja de producto (admin) | (completar) |
-| Categorías | `/categories/` | GET | Listado y filtro por categoría | (completar) |
+| Productos | `/products/` | POST | Alta de producto (admin) | (verificado en swagger) |
+| Producto | `/products/{id}` | PUT | Edición de producto (admin) | (verificado en swagger) |
+| Producto | `/products/{id}` | DELETE | Baja de producto (admin) | (verificado en swagger) |
+| Categorías | `/categories/` | GET | Listado y filtro por categoría | (verificado en swagger) |
 | Categorías | `/categories/` | POST | Alta de categoría (admin) | Verificado en Swagger |
 | Categoría | `/categories/{category_id}` | GET | Nombre de la categoría seleccionada | Verificado en Swagger |
-| Categoría | `/categories/{category_id}` | PUT y DELETE | Edición y baja (admin) | (completar) |
-| Tags | `/tags/` y `/tags/{id}` | GET, POST, PUT, DELETE | CRUD de tags (admin) | (completar) |
+| Categoría | `/categories/{category_id}` | PUT y DELETE | Edición y baja (admin) | (Verificado en Swagger / Implementado) |
+| Tags | `/tags/` y `/tags/{id}` | GET, POST, PUT, DELETE | CRUD de tags (admin) | (Verificado en Swagger / Implementado) |
 
 ### Datos que se guardan en el navegador (`localStorage`)
 
