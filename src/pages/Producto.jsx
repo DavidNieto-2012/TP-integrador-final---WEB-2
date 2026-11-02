@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getImageUrl, productService } from "../services/index";
 import { useCarrito } from "../context/cartContext";
+import { useAuth } from "../context/AuthContext";
 import ProductSkeleton from "../components/Productos/ProductSkeleton";
 
 const Producto = () => {
@@ -10,8 +11,9 @@ const Producto = () => {
   const [error, setError] = useState(null);
   const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState(1);
-  const { agregarAlCarrito } = useCarrito()
-  
+  const { agregarAlCarrito } = useCarrito();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -39,6 +41,14 @@ const Producto = () => {
 
   const cambiarCantidad = (incremento) => {
     setCantidad((actual) => Math.max(1, actual + incremento));
+  };
+
+  const handleAgregar = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    agregarAlCarrito(producto, cantidad);
   };
 
   const nombre = producto?.title;
@@ -151,7 +161,7 @@ const Producto = () => {
 
               <button
                 type="button"
-                onClick={() => agregarAlCarrito(producto, cantidad)}
+                onClick={handleAgregar}
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-indigo-500 active:scale-95"
               >
                 <svg
