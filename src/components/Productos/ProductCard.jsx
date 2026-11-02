@@ -1,6 +1,6 @@
 import { getImageUrl } from "../../services/index";
 import { useCarrito } from "../../context/cartContext";
-import { useAuth } from "../../context/AuthProvisorio";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
