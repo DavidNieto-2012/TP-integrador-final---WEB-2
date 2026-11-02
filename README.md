@@ -60,20 +60,20 @@ La aplicación consume la API REST de la cátedra: `http://ecommerce.fedegonzale
 
 ## Casos de prueba
 
-Marquen la columna **OK** con `[x]` cuando el resultado obtenido coincida con el esperado y anoten en «Obtenido» lo que pasó realmente, sobre todo si hubo diferencias.
+Se marca la columna **OK** con `[x]` cuando el resultado obtenido coincide con el esperado y anotan en «Obtenido» lo que pasó realmente si hubo diferencias.
 
 | N° | Caso | Resultado esperado | Resultado obtenido | OK |
 | --- | --- | --- | --- | --- |
-| 1 | Visitante intenta entrar a `/admin` | Lo redirige a `/login` | | [] |
-| 2 | Cliente intenta acceder a `/admin/productos` | Muestra la pantalla `/403` | | [ ] |
+| 1 | Visitante intenta entrar a `/admin` | Lo redirige a `/login` | | [X] |
+| 2 | Cliente intenta acceder a `/admin/productos` | Muestra la pantalla `/403` | Muestra 404 | [ ] | CORREGIR
 | 3 | Administrador crea, edita y borra un producto | Los cambios se ven en el panel y en el catálogo; el borrado pide confirmación | | [ ] |
 | 4 | Se cambia la categoría y los tags de un producto | El producto aparece en la nueva categoría y en los filtros de sus tags | | [ ] |
 | 5 | Se elimina una categoría con productos asociados | Se aplica la regla elegida (bloquear o reasignar) y no quedan productos sin categoría | | [ ] |
 | 6 | Cliente agrega artículos y confirma la compra | Subtotales y total correctos; el checkout confirma sin cobro y vacía el carrito | | [ ] |
 | 7 | Falla el fetch | Mensaje de error comprensible, sin pantalla en blanco | | [ ] |
-| 8 | Recarga de la página | El carrito se conserva y los cambios del administrador siguen visibles porque vienen de la API | | [ ] |
-| 9 | Cerrar sesión con productos en el carrito | El contador del carrito vuelve a 0 | | [ ] |
-| 10 | Visitante intenta entrar a `/carrito` o `/checkout` | Lo redirige a `/login` | | [ ] |
-| 11 | Ir a una dirección inexistente (por ejemplo `/lo-que-sea`) | Muestra la pantalla 404 | | [ ] |
+| 8 | Recarga de la página | El carrito se conserva y los cambios del administrador siguen visibles porque vienen de la API | | [X] |
+| 9 | Cerrar sesión con productos en el carrito | El contador del carrito vuelve a 0 | | [X] |
+| 10 | Visitante intenta entrar a `/carrito` o `/checkout` | Lo redirige a `/login` | | [X] |
+| 11 | Ir a una dirección inexistente (por ejemplo `/lo-que-sea`) | Muestra la pantalla 404 | | [X] |
 
 hacer: Capturas o video corto y tabla de pruebas con resultado esperado y obtenido 
