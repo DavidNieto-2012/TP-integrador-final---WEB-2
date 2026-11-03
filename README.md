@@ -30,8 +30,8 @@ El proyecto quedará corriendo en Vite, dirección local:   http://localhost:517
 ## Usuarios de prueba
 | Usuario | Contraseña |
 | --- | --- |
-| cliente1 | cliente123 |
-| admin | admin123 |
+| cliente@demo.com | 123 |
+| admin@demo.com | 123 |
 
 ## Origen de los datos
 
