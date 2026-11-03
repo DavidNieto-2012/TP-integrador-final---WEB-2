@@ -72,7 +72,7 @@ export const categoryService = {
 
   async createCategory(categoria) {
 
-    requiereAdmin();
+    requireAdmin();
     return await apiClient('/categories/', {
 
       method: 'POST',
