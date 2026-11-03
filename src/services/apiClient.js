@@ -41,14 +41,25 @@ export async function apiClient(endpoint, options = {}) {
     const data = text ? JSON.parse(text) : null;
 
     if (!response.ok) {
-      const serverMessage =
-        data?.detail?.[0]?.msg ||
-        data?.detail ||
-        data?. message ||
-        null;
-       
+      let serverMessage = null;
+      if (Array.isArray(data?.detail) && data.detail.length > 0) {
+        serverMessage = data.detail
+          .map((item) => {
+            const field = Array.isArray(item.loc)
+              ? item.loc.filter((p) => p !== 'body').join('.')
+              : '';
+            return field ? `Campo requerido "${field}": ${item.msg}` : item.msg;
+          })
+          .join(', ');
+      } else if (typeof data?.detail === 'string') {
+        serverMessage = data.detail;
+      } else if (data?.message) {
+        serverMessage = data.message;
+      }
 
-const errorMessage = getHttpErrorMessage(response.status,serverMessage);
+      console.error(`[apiClient] Error ${response.status} en "${url}":`, data);
+
+      const errorMessage = getHttpErrorMessage(response.status, serverMessage);
       const error = new Error(errorMessage);
       error.status = response.status;
       error.data = data;

@@ -56,10 +56,14 @@ const AdminCategorias = () => {
     setErrorForm(null);
     setEnviando(true);
     try {
-      await categoryService.createCategory({ title: nombre, name: nombre });
+      await categoryService.createCategory({ title: nombre, 
+
+      description: nombre
+
+      });
       setMensaje(`Categoría "${nombre}" creada correctamente.`);
       setNuevoNombre("");
-      await obtenerCategorias(); // Refresco inmediato
+      await obtenerCategorias(); 
     } catch (err) {
       setErrorForm(err.message || "Error al crear la categoría.");
     } finally {
@@ -90,14 +94,18 @@ const AdminCategorias = () => {
       return;
     }
     if (nombre === cat.name) {
-      cancelarEdicion(); // No cambió nada
+      cancelarEdicion(); 
       return;
     }
 
     setEnviando(true);
     setErrorAccion(null);
     try {
-      await categoryService.updateCategory(cat.id, { title: nombre, name: nombre });
+      await categoryService.updateCategory(cat.id, { 
+        title: nombre,
+        description: nombre  
+      
+      });
       setMensaje(`Categoría actualizada a "${nombre}".`);
       cancelarEdicion();
       await obtenerCategorias(); // Refresco inmediato
