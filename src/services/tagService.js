@@ -29,7 +29,7 @@ const existeTitulo = async (title, excluirId = null) => {
   try {
     data = await apiClient('/tags/');
   } catch (error) {
-    throw new Error(traducirError(error));
+    throw new Error(traducirError(error), { cause: error });
   }
   const lista = Array.isArray(data) ? data : data?.results || [];
   const buscado = title.trim().toLowerCase();
@@ -44,19 +44,17 @@ export const tagService = {
   /**
    * Obtiene la lista normalizada de etiquetas (tags).
    * 1. Intenta consultar el endpoint /tags/ (si existe en la API).
-   * 2. En caso de que falle devuelve una lista vacía.
+   * 2. Si falla, propaga el error para que la pantalla pueda informar el problema.
    * 
    * @returns {Promise<Array<{id: string, title: string}>>} Lista normalizada de tags
    */
   async getTags() {
-    try {
-      const data = await apiClient('/tags/');
-      const rawTags = Array.isArray(data) ? data : data?.results || [];
-      return this.normalizeTags(rawTags);
-    } catch (error) {
-      console.error('[tagService] Error al obtener tags:', error.message);
-      return [];
+    const data = await apiClient('/tags/');
+    const rawTags = Array.isArray(data) ? data : data?.results;
+    if (!Array.isArray(rawTags)) {
+      throw new Error("El servidor devolvió los tags en un formato inesperado.");
     }
+    return this.normalizeTags(rawTags);
   },
 
   /**
@@ -103,7 +101,7 @@ export const tagService = {
         body: JSON.stringify({ title: title.trim() }),
       });
     } catch (error) {
-      throw new Error(traducirError(error));
+      throw new Error(traducirError(error), { cause: error });
     }
   },
 
@@ -117,7 +115,7 @@ export const tagService = {
         body: JSON.stringify({ title: title.trim() }),
       });
     } catch (error) {
-      throw new Error(traducirError(error));
+      throw new Error(traducirError(error), { cause: error });
     }
   },
 
@@ -128,7 +126,7 @@ export const tagService = {
       });
     }
     catch (error) {
-      throw new Error(traducirError(error));
+      throw new Error(traducirError(error), { cause: error });
     }
   },
 

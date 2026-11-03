@@ -22,7 +22,7 @@ const AdminTags = () => {
       setTags(data);
 
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "No pudimos cargar los tags. Intentá nuevamente.");
     } finally {
       setLoading(false);
     }

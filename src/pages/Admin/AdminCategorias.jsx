@@ -34,6 +34,9 @@ const AdminCategorias = () => {
 
       {loading && <p>Cargando...</p>}
       {error && <p role="alert">{error}</p>}
+      {!loading && !error && categorias.length === 0 && (
+        <p>No hay categorías disponibles.</p>
+      )}
 
       <ul>
         {categorias.map((categoria) => (

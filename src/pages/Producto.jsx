@@ -26,11 +26,7 @@ const Producto = () => {
         const data = await productService.getProductById(id);
         setProducto(data);
       } catch (error) {
-        if (error instanceof TypeError) {
-          setError("No se pudo conectar con el servidor. Revisá tu conexión.");
-        } else {
-          setError(error.message || "No se pudo cargar el producto.");
-        }
+        setError(error.message || "No pudimos cargar el producto. Intentá nuevamente.");
       } finally {
         setLoading(false);
       }

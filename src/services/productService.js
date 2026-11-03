@@ -2,24 +2,18 @@ import { apiClient } from './apiClient';
 
 export const productService = {
   async getProducts() {
-    try {
-      const data = await apiClient('/products/');
-      return Array.isArray(data) ? data : data?.results || [];
-    } catch (error) {
-      console.error('[productService] Error al obtener productos:', error.message);
-      return [];
+    const data = await apiClient('/products/');
+    const products = Array.isArray(data) ? data : data?.results;
+    if (!Array.isArray(products)) {
+      throw new Error("El servidor devolvió los productos en un formato inesperado.");
     }
+    return products;
   },
 
   async getProductById(id) {
     if (!id) return null;
 
-    try {
-      return await apiClient(`/products/${id}`);
-    } catch (error) {
-      console.error('[productService] Error al obtener producto:', error.message);
-      return null;
-    }
+    return await apiClient(`/products/${id}`);
   },
 
   hasTag(product, tagName) {
@@ -91,5 +85,4 @@ function requireAdmin() {
     throw error;
   }
 }
-
 
