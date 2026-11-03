@@ -18,6 +18,7 @@ const AdminProductos = () => {
   const [form, setForm] = useState(formularioVacio);
   const [errores, setErrores] = useState({});
   const [editandoId, setEditandoId] = useState(null);
+  const [formularioAbierto, setFormularioAbierto] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [errorAccion, setErrorAccion] = useState("");
@@ -115,6 +116,19 @@ const AdminProductos = () => {
     setForm(formularioVacio);
     setErrores({});
     setEditandoId(null);
+    setFormularioAbierto(false);
+  };
+
+  const toggleFormulario = () => {
+    if (formularioAbierto) {
+      limpiarFormulario();
+      return;
+    }
+
+    setForm(formularioVacio);
+    setErrores({});
+    setEditandoId(null);
+    setFormularioAbierto(true);
   };
 
   {/* cargo el form con los datos del producto a editar */ }
@@ -132,9 +146,10 @@ const AdminProductos = () => {
     });
     setErrores({});
     setEditandoId(producto.id);
+    setFormularioAbierto(true);
     setMensaje("");
     setErrorAccion("");
-    document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("creacion-edicion")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleSubmit = async (event) => {
@@ -189,27 +204,20 @@ const AdminProductos = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 flex flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 py-8">
       <h1>Productos</h1>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <div>
-          <h2 className="text-lg font-semibold"> Crea y edita los productos </h2>
-          <form onSubmit={handleSubmit} className="mb-8 max-w-xl space-y-4 scroll-mt-20" id="formulario">
+      <div id="creacion-edicion" className="w-full">
+        <button type="button" disabled={enviando} onClick={toggleFormulario}
+          aria-expanded={formularioAbierto}  aria-controls="formulario"
+          className="mb-4 rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {formularioAbierto ? "Cancelar" : "Crear producto"}
+        </button>
+        {formularioAbierto && (
+          <form onSubmit={handleSubmit} className="mb-8 w-full space-y-4 scroll-mt-20" id="formulario">
           <div>
-            <label
-              htmlFor="title"
-              className="mb-1 block text-sm font-semibold"
-            >
-              Título
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={form.title}
-              onChange={handleChange}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
-            />
+            <label htmlFor="title" className="mb-1 block text-sm font-semibold" >Título</label>
+            <input id="title" name="title" type="text" value={form.title} onChange={handleChange} className="w-full rounded border border-slate-300 px-3 py-2 text-sm"/>
             {errores.title && (
               <p role="alert" className="text-sm text-red-600">
                 {errores.title}
@@ -218,19 +226,9 @@ const AdminProductos = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="description"
-              className="mb-1 block text-sm font-semibold"
-            >
-              Descripción
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              rows="3"
-              value={form.description}
-              onChange={handleChange}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            <label htmlFor="description"className="mb-1 block text-sm font-semibold">Descripción</label>
+            <textarea id="description" name="description" rows="3"
+              value={form.description} onChange={handleChange} className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
             />
             {errores.description && (
               <p role="alert" className="text-sm text-red-600">
@@ -240,21 +238,9 @@ const AdminProductos = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="price"
-              className="mb-1 block text-sm font-semibold"
-            >
-              Precio
-            </label>
-            <input
-              id="price"
-              name="price"
-              type="number"
-              step="0.01"
-              min="0"
-              value={form.price}
-              onChange={handleChange}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            <label htmlFor="price" className="mb-1 block text-sm font-semibold" > Precio </label>
+            <input id="price" name="price" type="number" step="0.01" min="0"
+              value={form.price} onChange={handleChange}className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
             />
             {errores.price && (
               <p role="alert" className="text-sm text-red-600">
@@ -267,16 +253,9 @@ const AdminProductos = () => {
             <legend className="mb-1 text-sm font-semibold">Categoría</legend>
             <div className="flex flex-wrap gap-4">
               {categorias.map((categoria) => (
-                <label
-                  key={categoria.id}
-                  className="flex items-center gap-2 text-sm"
-                >
-                  <input
-                    type="radio"
-                    name="category_id"
-                    value={categoria.id}
-                    checked={String(form.category_id) === String(categoria.id)}
-                    onChange={handleChange}
+                <label key={categoria.id} className="flex items-center gap-2 text-sm">
+                  <input type="radio" name="category_id" value={categoria.id}
+                    checked={String(form.category_id) === String(categoria.id)} onChange={handleChange}
                   />
                   {categoria.name}
                 </label>
@@ -326,7 +305,7 @@ const AdminProductos = () => {
               {enviando
                 ? "Guardando..."
                 : editandoId === null
-                  ? "Crear producto"
+                  ? "Guardar producto"
                   : "Guardar cambios"}
             </button>
             {editandoId !== null && (
@@ -341,6 +320,7 @@ const AdminProductos = () => {
             )}
           </div>
         </form>
+        )}
         {mensaje && <p className="mb-4 text-sm text-green-700">{mensaje}</p>}
         {errorAccion && (
           <p role="alert" className="mb-4 text-sm text-red-600">
@@ -349,7 +329,7 @@ const AdminProductos = () => {
         )}
       </div>
 
-      <div className="min-w-0 space-y-3">
+      <div className="min-w-0 space-y-3" id="tabla-productos">
         {loading && <p>Cargando...</p>}
         {error && <p role="alert">{error}</p>}
         {!loading && !error && productos.length === 0 && (
@@ -358,10 +338,12 @@ const AdminProductos = () => {
 
         {!loading && !error && productos.length > 0 && (
           <div className="overflow-x-auto">
+            <h2 className="text-lg font-semibold"> Todos los productos </h2>
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-slate-300 text-sm text-slate-600">
                   <th className="px-3 py-2">Título</th>
+                  <th className="px-3 py-2">Descripción</th>
                   <th className="px-3 py-2">Precio</th>
                   <th className="px-3 py-2">Categoría</th>
                   <th className="px-3 py-2">Tags</th>
@@ -372,6 +354,7 @@ const AdminProductos = () => {
                 {productos.map((producto) => (
                   <tr key={producto.id} className="border-b border-slate-100">
                     <td className="px-3 py-2">{producto.title}</td>
+                    <td className="px-3 py-2">{producto.description}</td>
                     <td className="px-3 py-2">${producto.price}</td>
                     <td className="px-3 py-2">
                       {typeof producto.category === "object"
@@ -422,7 +405,6 @@ const AdminProductos = () => {
           </div>
         )}
       </div>
-    </div>
     </div>
   );
 };
