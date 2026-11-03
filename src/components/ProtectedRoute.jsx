@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthProvisorio";
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = () => {
   const { user, cargandoSesion } = useAuth();

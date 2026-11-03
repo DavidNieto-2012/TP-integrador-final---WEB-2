@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthProvisorio";
+import { useAuth } from "./AuthContext";
 const CartContext = createContext(null);
 
 
