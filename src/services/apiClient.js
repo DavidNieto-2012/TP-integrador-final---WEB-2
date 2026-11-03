@@ -1,24 +1,23 @@
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const API_TOKEN = import.meta.env.VITE_API_TOKEN || '';
 
-function getHttpErrorMessage(status, serverMessage){
-if(serverMessage && typeof serverMessage === 'string') {
-return serverMessage
-}
-
-switch(status) {
-  case 401:
-    return 'No tenés permisos o tenes que iniciar sesión.';
-  case 403: 
-    return 'Permiso denegado no tenés permisos de admin';
-  case 404: 
-    return 'El elemento solicitado no existe o se borró';
-  case 500:
-    return'Error en el servidor. Intente más tarde';
-  default:
-    return `Error HTTP ${status}: solicitud no satisfactoria`;
+function getHttpErrorMessage(status, serverMessage) {
+  if (typeof serverMessage === "string" && serverMessage.trim()) {
+    return serverMessage;
   }
 
+  switch (status) {
+    case 401:
+      return "No tenés permisos o tenés que iniciar sesión.";
+    case 403:
+      return "No tenés permisos para realizar esta acción.";
+    case 404:
+      return "No encontramos el recurso solicitado.";
+    default:
+      return status >= 500
+        ? "Error en el servidor. Intentá nuevamente más tarde."
+        : `No pudimos completar la solicitud (error ${status}).`;
+  }
 }
 
 export async function apiClient(endpoint, options = {}) {
@@ -38,7 +37,16 @@ export async function apiClient(endpoint, options = {}) {
   try {
     const response = await fetch(url, config);
     const text = await response.text();
-    const data = text ? JSON.parse(text) : null;
+    let data = null;
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        if (response.ok) {
+          throw new Error("El servidor devolvió una respuesta que no pudimos interpretar.");
+        }
+      }
+    }
 
     if (!response.ok) {
       let serverMessage = null;
@@ -68,20 +76,17 @@ export async function apiClient(endpoint, options = {}) {
 
     return data;
   } catch (error) {
-
     if (error instanceof TypeError && !error.status) {
+      throw new Error(
+        "No pudimos acceder al servidor. Revisá tu conexión e intentá nuevamente.",
+        { cause: error }
+      );
+    }
 
-      const networkError = new Error ('No se pudo conectar con el servidor. Verifica tu conexión');
-      throw networkError;
-    }
-     
-      console.error(`[apiClient] Error de red en "${url}":`, error.message);
-      throw error
- 
-    }
+    console.error(`[apiClient] Error en "${url}":`, error.message);
+    throw error;
   }
-  
-
+}
 
 export function getImageUrl(path) {
   if (!path) {

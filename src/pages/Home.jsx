@@ -51,8 +51,7 @@ const Home = () => {
           setProductos([]);
         }
       } catch (err) {
-        console.log("Error al cargar productos en Home:", err);
-        setError("No se pudieron cargar los productos.");
+        setError(err.message || "No pudimos cargar los productos. Intentá nuevamente.");
       } finally {
         setLoading(false);
       }
@@ -137,7 +136,9 @@ const Home = () => {
       {loading ? (
         <p className="text-xl font-bold text-center my-8">Cargando productos...</p>
       ) : error ? (
-        <p className="text-xl font-bold text-red-400 text-center my-8">{error}</p>
+        <p role="alert" className="text-xl font-bold text-red-600 text-center my-8">{error}</p>
+      ) : productos.length === 0 ? (
+        <p className="my-8 text-center text-slate-600">No hay productos disponibles en este momento.</p>
       ) : (
         <>
           {/* 3. Sección Promociones */}

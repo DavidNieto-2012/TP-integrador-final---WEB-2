@@ -124,14 +124,14 @@ const Login = () => {
           </p>
           <ul className="space-y-1 text-sm text-slate-600">
             <li>
-              <span className="font-semibold">Usuario:</span> cliente1
+              <span className="font-semibold">Usuario:</span> cliente@demo.com
               <span className="px-1 text-slate-400">|</span>
-              <span className="font-semibold">Clave:</span> cliente123
+              <span className="font-semibold">Clave:</span> 123
             </li>
             <li>
-              <span className="font-semibold">Usuario:</span> admin
+              <span className="font-semibold">Usuario:</span> admin@demo.com
               <span className="px-1 text-slate-400">|</span>
-              <span className="font-semibold">Clave:</span> admin123
+              <span className="font-semibold">Clave:</span> 123
             </li>
           </ul>
         </div>

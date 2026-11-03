@@ -10,7 +10,7 @@ const AdminRoute = () => {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/forbiden" replace />;
   }
 
   if (user.rol !== "admin") {

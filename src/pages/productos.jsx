@@ -11,6 +11,7 @@ const Productos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [categorias, setCategorias] = useState([]);//esta es para que aparezcan las categorias en un select 
+  const [errorFiltros, setErrorFiltros] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const texto = searchParams.get("q") || "";
   const orden = searchParams.get("orden") || "";
@@ -30,11 +31,7 @@ const Productos = () => {
         setProductos(data);
 
       } catch (error) {
-        if (error instanceof TypeError) {
-          setError("No se pudo conectar con el servidor. Revisá tu conexión.");
-        } else {
-          setError(error.message);
-        }
+        setError(error.message || "No pudimos cargar los productos. Intentá nuevamente.");
       } finally {
         setLoading(false);
       }
@@ -44,8 +41,22 @@ const Productos = () => {
   }, []);
 
   useEffect(() => {
-    categoryService.getCategories().then(setCategorias);
-    tagService.getTags().then(setTags);
+    const cargarFiltros = async () => {
+      const errores = [];
+      try {
+        setCategorias(await categoryService.getCategories());
+      } catch (error) {
+        errores.push(error.message || "No pudimos cargar las categorías.");
+      }
+      try {
+        setTags(await tagService.getTags());
+      } catch (error) {
+        errores.push(error.message || "No pudimos cargar los tags.");
+      }
+      setErrorFiltros(errores.join(" "));
+    };
+
+    cargarFiltros();
   }, []);
 
 
@@ -145,8 +156,11 @@ const Productos = () => {
         </button>
       </div>
 
-
-
+      {errorFiltros && (
+        <p role="alert" className="mb-4 text-sm text-amber-700">
+          No se pudieron cargar todos los filtros. {errorFiltros}
+        </p>
+      )}
 
       {loading ? (
         <div>
@@ -155,9 +169,13 @@ const Productos = () => {
         </div>
 
       ) : error ? (
-        <p className="text-xl font-bold text-slate-300 mb-2">Error: {error}</p>
+        <p role="alert" className="text-xl font-bold text-red-600 mb-2">{error}</p>
       ) : productosFiltrados.length === 0 ? (
-        <p className="text-slate-400 max-w-md">No hay productos disponibles.</p>
+        <p className="text-slate-600 max-w-md">
+          {productos.length === 0
+            ? "No hay productos disponibles."
+            : "No se encontraron productos con los filtros seleccionados."}
+        </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {productosFiltrados.map((p) => (

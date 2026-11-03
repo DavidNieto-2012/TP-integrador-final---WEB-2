@@ -22,7 +22,8 @@ const Rutas = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/productos" element={<Productos />} />
       <Route path="/productos/:id" element={<Producto />} />
-      <Route path="/403" element={<Forbidden />} />
+      <Route path="/forbiden" element={<Forbidden />} />
+      <Route path="/403" element={<Navigate to="/forbiden" replace />} />
       <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
 
       {/* Rutas para clientes logueados */}
