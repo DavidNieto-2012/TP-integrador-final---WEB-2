@@ -49,12 +49,26 @@ export async function apiClient(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-      const serverMessage =
-        data?.detail?.[0]?.msg ||
-        (typeof data?.detail === "string" ? data.detail : null) ||
-        data?.message ||
-        null;
-      const error = new Error(getHttpErrorMessage(response.status, serverMessage));
+      let serverMessage = null;
+      if (Array.isArray(data?.detail) && data.detail.length > 0) {
+        serverMessage = data.detail
+          .map((item) => {
+            const field = Array.isArray(item.loc)
+              ? item.loc.filter((p) => p !== 'body').join('.')
+              : '';
+            return field ? `Campo requerido "${field}": ${item.msg}` : item.msg;
+          })
+          .join(', ');
+      } else if (typeof data?.detail === 'string') {
+        serverMessage = data.detail;
+      } else if (data?.message) {
+        serverMessage = data.message;
+      }
+
+      console.error(`[apiClient] Error ${response.status} en "${url}":`, data);
+
+      const errorMessage = getHttpErrorMessage(response.status, serverMessage);
+      const error = new Error(errorMessage);
       error.status = response.status;
       error.data = data;
       throw error;

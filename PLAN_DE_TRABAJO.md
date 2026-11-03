@@ -46,6 +46,6 @@ Cada fase tiene al menos una tarea por persona y los temas rotan (datos y servic
 
 - [x] **5.1** Capa de escritura contra la API: POST, PUT y DELETE con control de `response.ok` y de los códigos 401, 403 y 404, y refresco de datos después de cada cambio; si la API no tiene rutas de categorías o tags, definir con la cátedra cómo resolverlo y dejarlo documentado — **David** · Mié 28/10
 - [X] **5.2** Layout de `/admin` con menú a los tres módulos y rutas `/admin/productos`, `/admin/categorias` y `/admin/tags`; CRUD de tags — **Barby** · Vie 30/10
-- [ ] **5.3** CRUD de categorías con regla para borrar una categoría con productos asociados (bloquear o reasignar; decidirlo y documentarlo) y confirmación antes de borrar — **David** · Vie 30/10
-- [X] **5.4** CRUD de productos: formulario con campos obligatorios, precio positivo, validación de imágenes e IDs, y cambio de categoría y tags — **Rodri** · Sáb 31/10
+- [x] **5.3** CRUD de categorías con regla para borrar una categoría con productos asociados (bloquear o reasignar; decidirlo y documentarlo) y confirmación antes de borrar — **David** · Vie 30/10
+- [ ] **5.4** CRUD de productos: formulario con campos obligatorios, precio positivo, validación de imágenes e IDs, y cambio de categoría y tags — **Rodri** · Sáb 31/10
 
